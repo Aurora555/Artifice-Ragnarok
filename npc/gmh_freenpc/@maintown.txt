@@ -1,0 +1,13 @@
+-	script	at_maintown	-1,{
+OnInit:
+    bindatcmd "maintown", strnpcinfo(3)+"::OnAtMaintown";
+    end;
+
+OnAtMaintown:
+	if(getmapusers("guild_vs2-1") > 0 || getmapusers("guild_vs4") > 0 || getmapusers("pvp_n_2-5") > 0 || getmapusers("pvp_y_1-2") > 0 ){
+	dispbottom "[Server] No cheating! You cannot use this command on PvP room!";
+	end;
+	}
+	warp "dewata.gat",200,180;
+    end;
+}

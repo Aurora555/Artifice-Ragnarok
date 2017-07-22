@@ -1,0 +1,95 @@
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/HerculesWS/Hercules/!svn/ver/35724/trunk/tools
+END
+check-doc
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/HerculesWS/Hercules/!svn/ver/22437/trunk/tools/check-doc
+END
+validateinterfaces.py
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/HerculesWS/Hercules/!svn/ver/22437/trunk/tools/validateinterfaces.py
+END
+stackdump
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/HerculesWS/Hercules/!svn/ver/11003/trunk/tools/stackdump
+END
+Script-Checker.applescript
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/HerculesWS/Hercules/!svn/ver/30173/trunk/tools/Script-Checker.applescript
+END
+mob_db.pl
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/HerculesWS/Hercules/!svn/ver/11003/trunk/tools/mob_db.pl
+END
+item_merge.lua
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/HerculesWS/Hercules/!svn/ver/34771/trunk/tools/item_merge.lua
+END
+constdbconverter.pl
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/HerculesWS/Hercules/!svn/ver/30173/trunk/tools/constdbconverter.pl
+END
+skilldbconverter.php
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/HerculesWS/Hercules/!svn/ver/34771/trunk/tools/skilldbconverter.php
+END
+mobdbconverter.py
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/HerculesWS/Hercules/!svn/ver/22437/trunk/tools/mobdbconverter.py
+END
+mapreg-converter.php
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/HerculesWS/Hercules/!svn/ver/12496/trunk/tools/mapreg-converter.php
+END
+itemdbconverter.pl
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/HerculesWS/Hercules/!svn/ver/22437/trunk/tools/itemdbconverter.pl
+END
+configconverter.pl
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/HerculesWS/Hercules/!svn/ver/35724/trunk/tools/configconverter.pl
+END
+questdbconverter.pl
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/HerculesWS/Hercules/!svn/ver/22437/trunk/tools/questdbconverter.pl
+END
+mobdbconvall.sh
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/HerculesWS/Hercules/!svn/ver/22437/trunk/tools/mobdbconvall.sh
+END
+itemdb_jobmask_converter.pl
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/HerculesWS/Hercules/!svn/ver/30173/trunk/tools/itemdb_jobmask_converter.pl
+END

@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/HerculesWS/Hercules/!svn/ver/30173/trunk/Hercules.xcodeproj/xcshareddata/xcschemes
+END
+char-server.xcscheme
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/HerculesWS/Hercules/!svn/ver/30173/trunk/Hercules.xcodeproj/xcshareddata/xcschemes/char-server.xcscheme
+END
+map-server.xcscheme
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/HerculesWS/Hercules/!svn/ver/30173/trunk/Hercules.xcodeproj/xcshareddata/xcschemes/map-server.xcscheme
+END
+mapcache.xcscheme
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/HerculesWS/Hercules/!svn/ver/30173/trunk/Hercules.xcodeproj/xcshareddata/xcschemes/mapcache.xcscheme
+END
+sample.xcscheme
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/HerculesWS/Hercules/!svn/ver/30173/trunk/Hercules.xcodeproj/xcshareddata/xcschemes/sample.xcscheme
+END
+db2sql.xcscheme
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/HerculesWS/Hercules/!svn/ver/30173/trunk/Hercules.xcodeproj/xcshareddata/xcschemes/db2sql.xcscheme
+END
+HPMHooking_login.xcscheme
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/HerculesWS/Hercules/!svn/ver/30173/trunk/Hercules.xcodeproj/xcshareddata/xcschemes/HPMHooking_login.xcscheme
+END
+login-server.xcscheme
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/HerculesWS/Hercules/!svn/ver/30173/trunk/Hercules.xcodeproj/xcshareddata/xcschemes/login-server.xcscheme
+END
+HPMHooking_char.xcscheme
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/HerculesWS/Hercules/!svn/ver/30173/trunk/Hercules.xcodeproj/xcshareddata/xcschemes/HPMHooking_char.xcscheme
+END
+HPMHooking_map.xcscheme
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/HerculesWS/Hercules/!svn/ver/30173/trunk/Hercules.xcodeproj/xcshareddata/xcschemes/HPMHooking_map.xcscheme
+END

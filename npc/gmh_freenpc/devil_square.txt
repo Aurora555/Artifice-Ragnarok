@@ -1,0 +1,109 @@
+//   Made:By Kirlein (Tyirial Script Concept)  //
+// Devil Square based off the mmorpg Muonline  //
+// Have Fun and feel free to leave suggestions //
+//          Leave This intacted                //
+// +   Translated by Stillhard aka Dewa        //
+// +  Add times for 24 hours of play :P        //
+// +  Add a little bit infos for newbie users  //
+//      Completely rewrite by ~AnnieRuru~      //
+// +  Tested with SVN14214 Trunk               //
+/////////////////////////////////////////////////
+
+prontera,146,151,5	script	Devil Square	1_M_LIBRARYMASTER,{
+	mes "[Devil Square]";
+	mes "Welcome to the entrance door to ^FF0000Devil Square^000000";
+	mes "If you failed or die, the door will be closed and you have to wait until it start to open again";
+	next;
+	menu "Enter",-,"Info",L_Info,"Cancel",L_cancel;
+	
+	if ( $@DS_entry == 0 ) goto L_error;
+	if ( BaseLevel < 70 || Zeny < 20000 ) goto L_req;
+	if ( getmapusers("ordeal_1-1") >= 10 ) goto L_toomany;
+
+	set Zeny,Zeny - 20000;
+	announce strcharinfo(0)+" has entered the Devil Square",8;
+	percentheal 100,100;
+	warp "ordeal_1-1",183,182;
+	end;
+
+L_error:
+	mes "[Devil Square]";
+	mes "Devil Square is now closed";
+	mes "It'll be open again at:";
+	mes "Server Time 00:00, 2:00, 4:00, 6:00, 8:00, 10:00";
+	mes "12:00, 14:00, 16:00, 18:00, 20:00, 22:00";
+	close;
+
+L_req:
+	mes "[Devil Square]";
+	mes "Minimum base level to enter is 70";
+	mes "The registration fee is 20,000z";
+	close;
+
+L_toomany:
+	mes "[Devil Square]";
+	mes "I'm sorry but the Devil Square is FULL";
+	mes "Maximum users to enter is 10 players";
+	close;
+
+L_Info:
+	mes "[Devil Square]";
+	mes "There are 3 level monster you'll encounter";
+	mes "Each level the enemies will grow stronger";
+	mes "If you succeded to win all 3 level monster, you'll get the opportunity to open 10 Treasure Box with items, equips, and rare cards inside!!";
+	close;
+
+L_cancel:
+	mes "[Devil Square]";
+	mes "See ya";
+	close;
+}
+
+ordeal_1-1,0,0,0	script	DS_HiddenNpc	-1,{
+OnMinute00:
+	if (gettime(3) %2 == 1) end;
+	set $@DS_complete,0;
+	disablenpc "Exit#DS";
+	mapannounce "ordeal_1-1","Devil Square is now closed",0;
+	killmonsterall "ordeal_1-1";
+	announce "Devil Square is OPENED NOW!! 5 Minutes until it starts..!!",0;
+	set $@DS_entry,1;
+	sleep 60000;
+	announce "Devil Square will begin in 4 minutes..!!",0;
+	sleep 60000;
+	announce "Devil Square will begin in 3 minutes..!!",0;
+	sleep 60000;
+	announce "Devil Square will begin in 2 minutes..!!",0;
+	sleep 60000;
+	announce "Devil Square will begin in 1 minutes..!!",0;
+	sleep 60000;
+	announce "Devil Square is STARTED NOW !!",0;
+	initnpctimer;
+	set $@DS_entry,0;
+	set $@mob,75;
+	areamonster "ordeal_1-1",183,182,246,244,"[DS] SOLDIER SKELETON",1028,10,"DS_HiddenNpc::Ondevildead";
+	areamonster "ordeal_1-1",183,182,246,244,"[DS] ORC ARCHER",1189,15,"DS_HiddenNpc::Ondevildead";
+	areamonster "ordeal_1-1",183,182,246,244,"[DS] SANDMAN",1165,10,"DS_HiddenNpc::Ondevildead";
+	areamonster "ordeal_1-1",183,182,246,244,"[DS] ARCHER SKELETON",1016,15,"DS_HiddenNpc::Ondevildead";
+	areamonster "ordeal_1-1",183,182,246,244,"[DS] MINOROUS",1149,15,"DS_HiddenNpc::Ondevildead";
+	areamonster "ordeal_1-1",183,182,246,244,"[DS] REQUIEM",1164,10,"DS_HiddenNpc::Ondevildead";
+	end;
+
+Ondevildead:
+	set $@mob,$@mob - 1;
+	if($@mob == 25) mapannounce "ordeal_1-1","Devil Square : 25 mobs to enter the 2nd round",0;
+	if($@mob == 5) mapannounce "ordeal_1-1","Devil Square : 5 mobs to enter 2nd round",0;
+	if($@mob == 0) { 
+		mapannounce "ordeal_1-1","Devil Square will enter to 2nd round",0;
+		goto Ondevil2;
+	}
+	end;
+
+Ondevil2:
+	set $@mob,70;
+	areamonster "ordeal_1-1",183,182,246,244,"[DS] GARGOYLE",1253,15,"DS_HiddenNpc::Ondevildead2";
+	areamonster "ordeal_1-1",183,182,246,244,"[DS] ALARM",1193,10,"DS_HiddenNpc::Ondevildead2";
+	areamonster "ordeal_1-1",183,182,246,244,"[DS] HIGH ORC",1213,10,"DS_HiddenNpc::Ondevildead2";
+	areamonster "ordeal_1-1",183,182,246,244,"[DS] INJUSTICE",1257,10,"DS_HiddenNpc::Ondevildead2";
+	areamonster "ordeal_1-1",183,182,246,244,"[DS] MIMIC",1191,10,"DS_HiddenNpc::Ondevildead2";
+}

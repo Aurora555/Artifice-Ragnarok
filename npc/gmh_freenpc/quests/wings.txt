@@ -1,0 +1,108 @@
+//===== eAthena Script =======================================
+//= Quests: Incubus Wings, Succubus Wings, Retribution Wings
+//============================================================
+
+prontera,137,165,5	script	Wings	4_F_FAIRY,{
+
+ mes "[Quest]";
+ mes callfunc("F_Hi");
+ mes "I can make some wings for you.";
+ next;
+ menu "Incubus Wings",-,"Succubus Wings",M_2,"Retribution Wings",M_3,"Leave",M_exit;
+
+ mes "[Quest]";
+ mes "Dex + 10";
+ mes "Atk + 20%";
+ next;
+ mes "[Quest]";
+ mes "For this Wings I'll need:";
+ mes "1500 Evil Horn and";
+ mes "10 Incubus Card";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(923) < 1500 && countitem(4269) < 10) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 923,1500;
+ delitem 4269,10;
+ getitem 20013,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+M_2:
+ mes "[Quest]";
+ mes "Int + 10";
+ mes "[Ninja Class]";
+ mes "Matk + 20%";
+ next;
+ mes "[Quest]";
+ mes "For this Wings I'll need:";
+ mes "1500 Boys Pure Heart and";
+ mes "10 Succubus Card";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(12373) < 1500 && countitem(4218) < 10) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 12373,1500;
+ delitem 4218,10;
+ getitem 20018,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+M_3:
+ mes "[Quest]";
+ mes "Str + 10";
+ mes "Aspd + 50";
+ mes "Imbue weapon with Holy Property.";
+ next;
+ mes "[Quest]";
+ mes "For this Wings I'll need:";
+ mes "1500 Red Feather and";
+ mes "10 Retribution Card";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(7440) < 1500 && countitem(4391) < 10) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 7440,1500;
+ delitem 4391,10;
+ getitem 20017,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+M_exit:
+ mes "[Quest]";
+ mes callfunc("F_Bye");
+ close;
+}

@@ -1,0 +1,41 @@
+ordeal_3-2	mapflag	nowarp
+ordeal_3-2	mapflag	nowarpto
+ordeal_3-2	mapflag	nomemo
+
+dewata,217,174,5	script	Hyksos	617,{
+
+mes "Do you want to enter my Farm Zone?";
+menu "Okay.",-,"No,thanks.",L_No;
+
+warp "ordeal_3-2.gat",0,0;
+close;
+
+L_No:
+	close;
+
+OnInit:
+waitingroom "Easy Farming",0;
+end;
+}
+//Monsters
+ordeal_3-2,0,0,0,0	monster	Pandaring	3975,200,0,0,0
+ordeal_3-2,0,0,0,0	monster	Pandaring	3975,200,0,0,0
+ordeal_3-2,0,0,0,0	monster	Pandaring	3975,200,0,0,0
+ordeal_3-2,0,0,0,0	monster	Pandaring	3975,200,0,0,0
+ordeal_3-2,0,0,0,0	monster	Pandaring	3975,200,0,0,0
+ordeal_3-2,0,0,0,0	monster	Pandaring	3975,200,0,0,0
+ordeal_3-2,0,0,0,0	monster	Pandaring	3975,200,0,0,0
+ordeal_3-2,0,0,0,0	monster	Pandaring	3975,200,0,0,0
+ordeal_3-2,0,0,0,0	monster	Pandaring	3975,200,0,0,0
+ordeal_3-2,0,0,0,0	monster	Pandaring	3975,200,0,0,0
+ordeal_3-2,0,0,0,0	monster	Pandaring	3975,200,0,0,0
+ordeal_3-2,0,0,0,0	monster	Pandaring	3975,200,0,0,0
+ordeal_3-2,0,0,0,0	monster	Pandaring	3975,200,0,0,0
+ordeal_3-2,0,0,0,0	monster	Pandaring	3975,200,0,0,0
+ordeal_3-2,0,0,0,0	monster	Pandaring	3975,200,0,0,0
+ordeal_3-2,0,0,0,0	monster	Pandaring	3975,200,0,0,0
+ordeal_3-2,0,0,0,0	monster	Pandaring	3975,200,0,0,0
+
+
+
+

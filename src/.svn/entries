@@ -1,0 +1,52 @@
+10
+
+dir
+36087
+https://github.com/HerculesWS/Hercules/trunk/src
+https://github.com/HerculesWS/Hercules
+
+
+
+2016-09-11T22:36:25.000000Z
+36052
+hercules.ws
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+10ea8f2a-352a-d6f3-e463-ce57b7db7bff
+
+test
+dir
+
+plugins
+dir
+
+config
+dir
+
+common
+dir
+
+login
+dir
+
+char
+dir
+
+map
+dir
+
+tool
+dir
+

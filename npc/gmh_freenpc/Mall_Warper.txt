@@ -1,0 +1,4 @@
+prontera,164,170,3	script	Mall Warper	4_M_NOVELIST,{
+		warp "prontera" ,155,284;
+	end;
+}

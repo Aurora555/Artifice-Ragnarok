@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/HerculesWS/Hercules/!svn/ver/22437/trunk/sql-files/tools
+END
+convert_engine_myisam.sql
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/HerculesWS/Hercules/!svn/ver/22437/trunk/sql-files/tools/convert_engine_myisam.sql
+END
+convert_passwords.sql
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/HerculesWS/Hercules/!svn/ver/22437/trunk/sql-files/tools/convert_passwords.sql
+END
+convert_engine_innodb.sql
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/HerculesWS/Hercules/!svn/ver/22437/trunk/sql-files/tools/convert_engine_innodb.sql
+END

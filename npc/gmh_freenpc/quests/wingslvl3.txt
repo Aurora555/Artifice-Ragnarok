@@ -1,0 +1,122 @@
+//===== eAthena Script =======================================
+//= Quests: Arctic Wings, Flaming Wings, Elemental Wings
+//============================================================
+
+prontera,140,165,5	script	Lvl 3 Wings	4_F_MORAFINE2,{
+
+ mes "[Quest]";
+ mes callfunc("F_Hi");
+ mes "I can make level 3 wings for you.";
+ next;
+ menu "Arctic Wings",-,"Flaming Wings",M_2,"Elemental Wings",M_3,"Leave",M_exit;
+
+ mes "[Quest]";
+ mes "Int + 10";
+ mes "Matk + 10%";
+ mes "Gives Level 10 Storm Gust.";
+ next;
+ mes "[Quest]";
+ mes "For this Wings I'll need:";
+ mes "5 Ice Scale,";
+ mes "1 Stormy Knight Card and";
+ mes "1500 Ice Cubic";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(7562) < 5 && countitem(4318) < 1 && countitem(7066) < 1500) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 7562,5;
+ delitem 4318,1;
+ delitem 7066,1500;
+ getitem 20002,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+M_2:
+ mes "[Quest]";
+ mes "Vit + 20";
+ mes "HP + 30%";
+ next;
+ mes "[Quest]";
+ mes "For this Wings I'll need:";
+ mes "2 Phoenix Wings,";
+ mes "5 Eddga Card and";
+ mes "2000 Antelope Skin.";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(20120) < 2 && countitem(4123) < 5 && countitem(7107) < 2000) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 20120,2;
+ delitem 4123,5;
+ delitem 7107,2000;
+ getitem 20063,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+
+M_3:
+ mes "[Quest]";
+ mes "Str + 15";
+ mes "Add a 10% resistance against All Elements.";
+ next;
+ mes "[Quest]";
+ mes "For this Wings I'll need:";
+ mes "10 Jakk Card,";
+ mes "10 Hode Card,";
+ mes "10 Marse Card,";
+ mes "10 Myst Card,";
+ mes "10 Raydric Card,";
+ mes "1 Twin Edge of Naght Sieger Blue and";
+ mes "1 Twin Edge of Naght Sieger Red";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(13412) < 1 && countitem(13413) < 1 && countitem(4109) < 10 && countitem(4081) < 10 && countitem(4095) < 10 && countitem(4108) < 10 && countitem(4133) < 10) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 13412,1;
+ delitem 13413,1;
+ delitem 4109,10;
+ delitem 4081,10;
+ delitem 4095,10;
+ delitem 4108,10;
+ delitem 4133,10;
+ getitem 20008,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+M_exit:
+ mes "[Quest]";
+ mes callfunc("F_Bye");
+ close;
+}

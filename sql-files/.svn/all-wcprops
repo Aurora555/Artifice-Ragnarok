@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/HerculesWS/Hercules/!svn/ver/35868/trunk/sql-files
+END
+mob_db.sql
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/HerculesWS/Hercules/!svn/ver/34771/trunk/sql-files/mob_db.sql
+END
+mob_skill_db2.sql
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/HerculesWS/Hercules/!svn/ver/30173/trunk/sql-files/mob_skill_db2.sql
+END
+item_db.sql
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/HerculesWS/Hercules/!svn/ver/35868/trunk/sql-files/item_db.sql
+END
+logs.sql
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/HerculesWS/Hercules/!svn/ver/34771/trunk/sql-files/logs.sql
+END
+main.sql
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/HerculesWS/Hercules/!svn/ver/34771/trunk/sql-files/main.sql
+END
+mob_db2.sql
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/HerculesWS/Hercules/!svn/ver/34771/trunk/sql-files/mob_db2.sql
+END
+item_db2.sql
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/HerculesWS/Hercules/!svn/ver/34771/trunk/sql-files/item_db2.sql
+END
+mob_skill_db_re.sql
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/HerculesWS/Hercules/!svn/ver/33063/trunk/sql-files/mob_skill_db_re.sql
+END
+mob_db_re.sql
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/HerculesWS/Hercules/!svn/ver/35841/trunk/sql-files/mob_db_re.sql
+END
+item_db_re.sql
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/HerculesWS/Hercules/!svn/ver/35868/trunk/sql-files/item_db_re.sql
+END
+mob_skill_db.sql
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/HerculesWS/Hercules/!svn/ver/33063/trunk/sql-files/mob_skill_db.sql
+END

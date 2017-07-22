@@ -1,0 +1,83 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/HerculesWS/Hercules/!svn/ver/36051/trunk/src/plugins/HPMHooking
+END
+HPMHooking_char.HookingPoints.inc
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/HerculesWS/Hercules/!svn/ver/35824/trunk/src/plugins/HPMHooking/HPMHooking_char.HookingPoints.inc
+END
+HPMHooking_map.HookingPoints.inc
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/HerculesWS/Hercules/!svn/ver/36051/trunk/src/plugins/HPMHooking/HPMHooking_map.HookingPoints.inc
+END
+HPMHooking_login.HPMHooksCore.inc
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/HerculesWS/Hercules/!svn/ver/34771/trunk/src/plugins/HPMHooking/HPMHooking_login.HPMHooksCore.inc
+END
+HPMHooking_login.Hooks.inc
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/HerculesWS/Hercules/!svn/ver/35709/trunk/src/plugins/HPMHooking/HPMHooking_login.Hooks.inc
+END
+HPMHooking_login.sources.inc
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/HerculesWS/Hercules/!svn/ver/34771/trunk/src/plugins/HPMHooking/HPMHooking_login.sources.inc
+END
+HPMHooking_char.HPMHooksCore.inc
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/HerculesWS/Hercules/!svn/ver/35824/trunk/src/plugins/HPMHooking/HPMHooking_char.HPMHooksCore.inc
+END
+HPMHooking_map.HPMHooksCore.inc
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/HerculesWS/Hercules/!svn/ver/36051/trunk/src/plugins/HPMHooking/HPMHooking_map.HPMHooksCore.inc
+END
+HPMHooking_char.Hooks.inc
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/HerculesWS/Hercules/!svn/ver/35824/trunk/src/plugins/HPMHooking/HPMHooking_char.Hooks.inc
+END
+HPMHooking_char.sources.inc
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/HerculesWS/Hercules/!svn/ver/34771/trunk/src/plugins/HPMHooking/HPMHooking_char.sources.inc
+END
+HPMHooking_map.Hooks.inc
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/HerculesWS/Hercules/!svn/ver/36051/trunk/src/plugins/HPMHooking/HPMHooking_map.Hooks.inc
+END
+HPMHooking_map.sources.inc
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/HerculesWS/Hercules/!svn/ver/34771/trunk/src/plugins/HPMHooking/HPMHooking_map.sources.inc
+END
+HPMHooking.Defs.inc
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/HerculesWS/Hercules/!svn/ver/36051/trunk/src/plugins/HPMHooking/HPMHooking.Defs.inc
+END
+HPMHooking_login.HookingPoints.inc
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/HerculesWS/Hercules/!svn/ver/34771/trunk/src/plugins/HPMHooking/HPMHooking_login.HookingPoints.inc
+END

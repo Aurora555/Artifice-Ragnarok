@@ -1,0 +1,57 @@
+dewata,217,207,3	script	Refiner	63,{
+
+	mes .NpcName$;
+	mes "I'm the Armsmith.";
+	mes "I can refine all kinds of weapons, armor and equipment, so let me";
+	mes "know what you want me to refine.";
+	next;
+	
+	setarray .@position$[1], "Head","Body","Left hand","Right hand","Robe","Shoes","Accessory 1","Accessory 2","Middle Headgear","Lower Headgear";
+	set .@menu$, "";
+	for(.@i = 1; .@i <= 10; .@i++) {
+		if(getequipisequiped(.@i)) {
+			set .@menu$, .@menu$ + .@position$[.@i] + "-" + "[" + getequipname(.@i) + "]";
+			.@equipped = 1;
+		}
+		set .@menu$, .@menu$ + ":";
+	}
+		if (.@equipped == 0) {
+		mes .NpcName$;
+		mes "I don't think I can refine any items you have...";
+		close;
+	}
+	// Get part to upgrade
+	@part = select(.@menu$);
+
+	if(!getequipisequiped(@part)) {
+		mes .NpcName$;
+		mes "You're not wearing";
+		mes "anything there that";
+		mes "I can refine.";
+		emotion e_an;
+		close;
+	}
+
+	//Check to see if the items is already +MAX_REFINE
+	else if(getequiprefinerycnt(@part) >= .MaxRefine) {
+		mes .NpcName$;
+		mes "I can't refine this";
+		mes "any more. This is as";
+		mes "refined as it gets!";
+		close;
+	}
+	else{
+		.@refineDelta = .MaxRefine - getequiprefinerycnt(@part);
+		successrefitem @part,.@refineDelta;
+		close;
+	}
+
+OnInit:
+		// ======================
+		// 		Basic Settings
+		// ======================
+		waitingroom "Instant Max Refiner",0;
+		.NpcName$ = "[Refiner]";	// Name of the NPC for dialogues
+		.MaxRefine = 100;	// The maximum refine
+		end;
+}

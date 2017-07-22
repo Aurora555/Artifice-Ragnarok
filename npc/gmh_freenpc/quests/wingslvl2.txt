@@ -1,0 +1,111 @@
+//===== eAthena Script =======================================
+//= Quests: Phaser Wings, Phoenix WIngs, Wing Of Balance
+//============================================================
+
+prontera,143,165,5	script	Lvl 2 Wings	4_F_MORAFINE1,{
+
+ mes "[Quest]";
+ mes callfunc("F_Hi");
+ mes "I can make level 2 wings for you.";
+ next;
+ menu "Phaser Wings",-,"Phoenix Wings",M_2,"Wing Of Balance",M_3,"Leave",M_exit;
+
+ mes "[Quest]";
+ mes "Vit + 20";
+ next;
+ mes "[Quest]";
+ mes "For this Wings I'll need:";
+ mes "500 Used Iron Plate,";
+ mes "500 Needle of Alarm and";
+ mes "500 Solid Iron Piece";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(7319) < 500 && countitem(1095) < 500 && countitem(7507) < 500) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 7319,500;
+ delitem 1095,500;
+ delitem 7507,500;
+ getitem 20016,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+M_2:
+ mes "[Quest]";
+ mes "Vit + 10";
+ mes "HP + 20%";
+ next;
+ mes "[Quest]";
+ mes "For this Wings I'll need:";
+ mes "100 Peco peco Card,";
+ mes "1500 Burning Heart and";
+ mes "500 Bill of Birds";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(4031) < 100 && countitem(7097) < 1500 && countitem(925) < 500) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 4031,100;
+ delitem 7097,1500;
+ delitem 925,500;
+ getitem 20120,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+M_3:
+ mes "[Quest]";
+ mes "Str + 10";
+ mes "Vit + 5";
+ mes "Int + 10";
+ mes "Dex + 5";
+ next;
+ mes "[Quest]";
+ mes "For this Wings I'll need:";
+ mes "Archangel Wings and";
+ mes "Archdemon Wings";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(20000) < 1 && countitem(20001) < 1) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 20000,1;
+ delitem 20001,1;
+ getitem 20021,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+M_exit:
+ mes "[Quest]";
+ mes callfunc("F_Bye");
+ close;
+}

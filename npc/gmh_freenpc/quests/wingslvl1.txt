@@ -1,0 +1,136 @@
+//===== eAthena Script =======================================
+//= Quests: Archangel Wings, Archdemon Wings, Deviling Wings, Little Angel Wings
+//============================================================
+
+prontera,146,165,5	script	Lvl 1 Wings	4_F_FAIRYKID,{
+
+ mes "[Quest]";
+ mes callfunc("F_Hi");
+ mes "I can make level 1 wings for you.";
+ next;
+ menu "Archangel Wings",-,"Archdemon Wings",M_2,"Deviling Wings",M_3,"Little Angel Wings",M_4,"Leave",M_exit;
+
+ mes "[Quest]";
+ mes "Vit + 5";
+ mes "Int + 10";
+ next;
+ mes "[Quest]";
+ mes "For this Wings I'll need:";
+ mes "10 False Angel Card and";
+ mes "500 Soft Feather";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(4316) < 10 && countitem(7063) < 500) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 4316,10;
+ delitem 7063,500;
+ getitem 20000,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+M_2:
+ mes "[Quest]";
+ mes "Str + 10";
+ mes "Dex + 5";
+ next;
+ mes "[Quest]";
+ mes "For this Wings I'll need:";
+ mes "10 Injustice Card and";
+ mes "500 Soft Feather";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(4268) < 10 && countitem(7063) < 500) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 4268,10;
+ delitem 7063,500;
+ getitem 20001,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+M_3:
+ mes "[Quest]";
+ mes "Str + 10";
+ mes "Dex + 10";
+ next;
+ mes "[Quest]";
+ mes "For this Wings I'll need:";
+ mes "100 Blade Lost in Darkness and";
+ mes "500 Blue Feather";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(7023) < 100 && countitem(7441) < 500) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 7023,100;
+ delitem 7441,500;
+ getitem 20006,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+M_4:
+ mes "[Quest]";
+ mes "Vit + 10";
+ mes "Int + 10";
+ next;
+ mes "[Quest]";
+ mes "For this Wings I'll need:";
+ mes "1000 Skirt of Virgin and";
+ mes "500 Blue Feather";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(1049) < 1000 && countitem(7441) < 500) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 1049,1000;
+ delitem 7441,500;
+ getitem 20015,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+M_exit:
+ mes "[Quest]";
+ mes callfunc("F_Bye");
+ close;
+}

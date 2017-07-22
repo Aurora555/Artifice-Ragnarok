@@ -1,0 +1,6 @@
+prontera,164,167,3	script	Vote Shop Warper	4_M_SCIENCE,{
+		warp "itemmall" ,179,56;
+	end;
+}
+
+itemmall,179,52,0	warp	voteshop01	1,1,prontera,156,156

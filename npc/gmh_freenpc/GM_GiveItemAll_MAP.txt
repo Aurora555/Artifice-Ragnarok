@@ -1,0 +1,68 @@
+//===== eAthena Script ============================================
+//= #itemall
+//===== By: =======================================================
+//= Originally by goddameit
+//= redo by ~AnnieRuru~
+//===== Current Version: ==========================================
+//= 1.0
+//===== Compatible With: ==========================================
+//= eAthena 14910 Trunk TXT/SQL
+//===== Description: ==============================================
+//= give items to all players in the map, or on the server
+//===== Topic =====================================================
+//= http://www.eathena.ws/board/index.php?showtopic=276326
+//===== Additional Comments: ======================================
+//= topic splitted
+//=================================================================
+
+-	script	itemall	-1,{
+OnWhisperGlobal:
+	if ( getgmlevel() < 89 ) end; // configure minimum GM level here
+	if ( compare( @whispervar0$, "map" ) )
+		set .@map$, strcharinfo(3);
+	else if ( compare( @whispervar0$, "all" ) == 0 ) {
+		dispbottom "[itemall] Please enter \"map#<item id>#<item amount>\" or \"all#<item id>#<item amount>\"";
+		end;
+	}
+	set .@itemid, atoi( @whispervar1$ );
+	set .@amount, atoi( @whispervar2$ );
+	if ( getiteminfo( .@itemid, 0 ) == -1 ) {
+		dispbottom "[itemall] Invalid item ID";
+		end;
+	}
+	if ( .@amount == 0 )
+		set .@amount, 1;
+	set .@origin$, strcharinfo(0);
+	while ( .@i < $online_count ) {
+		attachrid getd("$online_aid"+ .@i );
+		if ( .@map$ == "" || strcharinfo(3) == .@map$ ) {
+			message strcharinfo(0), .@origin$ +" gives all players online in this map "+ .@amount +" "+ getitemname(.@itemid);
+			getitem .@itemid, .@amount;
+		}
+		set .@i, .@i +1;
+	}
+	end;
+
+OnPCLoginEvent:
+	setd "$online_aid"+ $online_count, getcharid(3);
+	set $online_count, $online_count +1;
+	end;
+OnPCLogoutEvent:
+	while ( .@i < $online_count && getd("$online_aid"+ .@i ) != getcharid(3) )
+		set .@i, .@i +1;
+	if ( $online_count == .@i ) end; // prevent @loadnpc/@reloadscript bug becos not in the array
+	while ( .@i < $online_count ) {
+		setd "$online_aid"+ .@i, getd("$online_aid"+ ( .@i +1 ) );
+		set .@i, .@i +1;
+	}
+	set $online_count, $online_count -1;
+	end;
+OnInit:
+	if ( getusers(1) ) end;
+	while ( .@i < $online_count ) {
+		setd "$online_aid"+ .@i, 0;
+		set .@i, .@i +1;
+	}
+	set $online_count, 0;
+	end;
+}

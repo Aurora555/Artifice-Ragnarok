@@ -1,0 +1,27 @@
+aev_fild	mapflag	nowarp
+aev_fild	mapflag	nowarpto
+aev_fild	mapflag	nomemo
+aev_fild	mapflag	noskill
+
+dewata,219,178,5	script	Philipp	619,{
+
+mes "Do you want to enter my Farm Zone?";
+menu "Okay.",-,"No,thanks.",L_No;
+
+warp "aev_fild.gat",0,0;
+close;
+
+L_No:
+	close;
+
+OnInit:
+waitingroom "Hard Farming",0;
+end;
+}
+//Monsters
+aev_fild,0,0,0,0	monster	Pineapple	3974,500,0,0,0
+aev_fild,0,0,0,0	monster	Pineapple	3974,500,0,0,0
+
+
+
+

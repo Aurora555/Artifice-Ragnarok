@@ -1,0 +1,172 @@
+//===== eAthena Script =======================================
+//= Quests: Phoenix Will, Helm of Loki, Demonic Goat Horns, Nyan Ears, Deviling Pin
+//============================================================
+
+prontera,140,170,5	script	Headgears#h1-2	4_M_MINSTREL1,{
+
+ mes "[Quest]";
+ mes callfunc("F_Hi");
+ mes "I can make some headgears for you.";
+ next;
+ menu "Phoenix Will",-,"Helm of Loki",M_2,"Demonic Goat Horns",M_3,"Nyan Ears",M_4,"Deviling Pin",M_5,"Leave",M_exit;
+
+ mes "[Quest]";
+ mes "Vit + 5";
+ mes "Add a 10% resistance against DemiHuman.";
+ next;
+ mes "[Quest]";
+ mes "For this Headgear I'll need:";
+ mes "500 Burning Horseshoe,";
+ mes "500 Burning Heart,";
+ mes "500 Burning Hair and";
+ mes "1000 Ice Fireworks";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(7120) < 500 && countitem(7097) < 500 && countitem(7122) < 500 && countitem(12374) < 1000 ) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 7120,500;
+ delitem 7097,500;
+ delitem 7122,500;
+ delitem 12374,1000;
+ getitem 20092,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+M_2:
+ mes "[Quest]";
+ mes "Str + 10";
+ mes "Increase Damage to DemiHuman by 5%.";
+ next;
+ mes "[Quest]";
+ mes "For this Headgear I'll need:";
+ mes "Loki's Whisper and";
+ mes "1000 Rune of Darkness";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(7019) < 500 && countitem(7511) < 1000 ) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 7019,500;
+ delitem 7511,1000;
+ getitem 20072,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+M_3:
+ mes "[Quest]";
+ mes "Hit - 50";
+ mes "Increase Damage to DemiHuman by 15%.";
+ next;
+ mes "[Quest]";
+ mes "For this Headgear I'll need:";
+ mes "1500 Little Evil Horn and";
+ mes "50 Baphomet Doll";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(750) < 50 && countitem(1038) < 1500 ) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 750,50;
+ delitem 1038,1500;
+ getitem 20054,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+M_4:
+ mes "[Quest]";
+ mes "Agi + 10";
+ mes "Dex + 30";
+ next;
+ mes "[Quest]";
+ mes "For this Headgear I'll need:";
+ mes "3000 Fig Leaf and";
+ mes "1000 Sea-Otter Fur";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(7298) < 3000 && countitem(7065) < 1000 ) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 7298,3000;
+ delitem 7065,1000;
+ getitem 20090,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+M_5:
+ mes "[Quest]";
+ mes "Str + 5";
+ mes "Add a 10% resistance against All Elements.";
+ next;
+ mes "[Quest]";
+ mes "For this Headgear I'll need:";
+ mes "1000 Little Evil Wing,";
+ mes "10 Black Dyestuff and";
+ mes "10 Raydric Card";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(1039) < 1000 && countitem(983) < 10 && countitem(4133) < 10 ) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 1039,1000;
+ delitem 983,10;
+ delitem 4133,10;
+ getitem 20055,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+M_exit:
+ mes "[Quest]";
+ mes callfunc("F_Bye");
+ close;
+}

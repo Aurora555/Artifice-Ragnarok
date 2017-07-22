@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/HerculesWS/Hercules/!svn/ver/35724/trunk/conf/import-tmpl
+END
+battle.conf
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/HerculesWS/Hercules/!svn/ver/35724/trunk/conf/import-tmpl/battle.conf
+END
+login-server.conf
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/HerculesWS/Hercules/!svn/ver/35708/trunk/conf/import-tmpl/login-server.conf
+END
+char-server.conf
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/HerculesWS/Hercules/!svn/ver/35704/trunk/conf/import-tmpl/char-server.conf
+END
+map-server.conf
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/HerculesWS/Hercules/!svn/ver/35710/trunk/conf/import-tmpl/map-server.conf
+END
+logs.conf
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/HerculesWS/Hercules/!svn/ver/35717/trunk/conf/import-tmpl/logs.conf
+END
+script.conf
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/HerculesWS/Hercules/!svn/ver/35719/trunk/conf/import-tmpl/script.conf
+END
+inter-server.conf
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/HerculesWS/Hercules/!svn/ver/35706/trunk/conf/import-tmpl/inter-server.conf
+END
+msg_conf.txt
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/HerculesWS/Hercules/!svn/ver/11003/trunk/conf/import-tmpl/msg_conf.txt
+END
+socket.conf
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/HerculesWS/Hercules/!svn/ver/35723/trunk/conf/import-tmpl/socket.conf
+END

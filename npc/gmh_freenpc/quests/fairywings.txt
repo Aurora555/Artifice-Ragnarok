@@ -1,0 +1,131 @@
+//===== eAthena Script =======================================
+//= Quests: Blood Wings, Dark Fairy Wings, Ice Wings, White Fairy Wings
+//============================================================
+
+quiz_02,297,252,4	script	Fairy Wings	4_F_FAIRY,{
+
+ mes "[Quest]";
+ mes callfunc("F_Hi");
+ mes "I can make some fairy wings for you.";
+ next;
+ menu "Blood Wings",-,"Dark Fairy Wings",M_2,"Ice Wings",M_3,"White Fairy Wings",M_4,"Leave",M_exit;
+
+ mes "[Quest]";
+ mes "Str + 20";
+ mes "Atk + 30%";
+ next;
+ mes "For this Wings I'll need:";
+ mes "3 Will of Red Darkness,";
+ mes "5 Turtle General Card,";
+ mes "3 Pocket Watch and";
+ mes "500 Old Manteau";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(7566) < 3 && countitem(4305) < 5 && countitem(7513) < 3 && countitem(7207) < 500) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 7566,3;
+ delitem 4305,5;
+ delitem 7513,3;
+ delitem 7207,500;
+ getitem 20003,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ close;
+ }
+
+M_2:
+ mes "[Quest]";
+ mes "Dex + 30";
+ mes "Atk + 20%";
+ next;
+ mes "For this Wings I'll need:";
+ mes "1500 Blue Hair and";
+ mes "10 Fragment of Rossata Stone";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(1034) < 1500 && countitem(7211) < 10) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 1034,1500;
+ delitem 7211,10;
+ getitem 20005,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ close;
+ }
+
+M_3:
+ mes "[Quest]";
+ mes "Int + 10";
+ mes "Matk + 20%";
+ next;
+ mes "For this Wings I'll need:";
+ mes "1500 Ancient Lips and";
+ mes "5 Ice Scale";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(1054) < 1500 && countitem(7562) < 5) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 1054,1500;
+ delitem 7562,5;
+ getitem 20012,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ close;
+ }
+
+M_4:
+ mes "[Quest]";
+ mes "Agi + 20";
+ mes "Flee + 50";
+ next;
+ mes "For this Wings I'll need:";
+ mes "1500 Giant Butterfly Wings and";
+ mes "20 Yoyo Card";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(7168) < 1500 && countitem(4051) < 20) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 7168,1500;
+ delitem 4051,20;
+ getitem 20020,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ close;
+ }
+
+M_exit:
+ mes "[Quest]";
+ close;
+}

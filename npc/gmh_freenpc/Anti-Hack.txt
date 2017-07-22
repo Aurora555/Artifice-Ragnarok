@@ -1,0 +1,39 @@
+//===== eAthena Script =======================================
+//= Anti GM level hacks
+//===== By: ==================================================
+//= [GM]Xeon @ Massive Emulation (Massemu.com)
+//===== Current Version: =====================================
+//= 1.0
+//===== Compatible With: =====================================
+//= All modern eAthena SVN's, trunk and stable.
+//===== Description: =========================================
+//= Prevent players from hacking your server by instantly
+//= banning them and sending the administrator a mail message.
+//===== Additional Comments: =================================
+//= Note, replace ADMIN_NAME with your server administartors
+//= in-game character name, but if you have mail disabled,
+//= just comment the entire line. Also note, make the GM
+//= account ID's (I set by default 2000000-2000020) to your GM
+//= account ID's.
+//============================================================
+
+new_zone01.gat,0,0,0	script	OnPCLoginEvent	-1,{
+
+if (getgmlevel() == 0) end;
+
+// The allowed GM account ID's block
+if (getcharid(3) == 2000000) end;
+if (getcharid(3) == 2000001) end;
+if (getcharid(3) == 2000002) end;
+if (getcharid(3) == 2000003) end;
+if (getcharid(3) == 2000004) end;
+if (getcharid(3) == 2000005) end;
+if (getcharid(3) == 2000006) end;
+// End of the allowed GM account ID's block
+
+atcommand "@ban +6m " + strcharinfo(0);
+atcommand "@sendprioritymail [GM]Arrow™ I tried to hack my GM level to " + getgmlevel();
+announce "Anti-Hack: " + strcharinfo(0) + " has been banned for hacking his/her GM level!",bc_all;
+end;
+
+}

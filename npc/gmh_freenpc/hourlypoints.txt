@@ -1,0 +1,37 @@
+-	script	hourlypoints	-1,{
+
+//--Start of the Script
+OnPCLoginEvent:
+attachnpctimer ""+strcharinfo(0)+"";
+dispbottom "Your hourly points has started. Stay online to get more rewards.";
+initnpctimer;
+end;
+
+OnTimer30000:
+//Check if Vending (normal or @at)
+if(checkvending() >= 1 || checkchatting() == 1) {
+dispbottom "The hourly badge rewards has stopped because you were vending / Pub Room. Please relog if you wish to start again.";
+stopnpctimer;
+end;
+}
+
+OnTimer60000:
+set @minute, @minute + 1;
+//Check for 1 Minute
+if(@minute == 60){
+set @minute,0;
+set #CASHPOINTS, #CASHPOINTS + 5;
+dispbottom "You received 5 cashpoints for staying 1 hour in-game.";
+set @consecutive_hour, @consecutive_hour + 5;
+}
+//Check for 5 hours consecutive
+if(@consecutive_hour == 5) {
+set @consecutive_hour,0;
+set #CASHPOINTS, #CASHPOINTS + 25;
+dispbottom "You received 25 cashpoints for staying 5 hours in-game.";
+}
+stopnpctimer;
+initnpctimer;
+end;
+
+}

@@ -1,0 +1,89 @@
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/HerculesWS/Hercules/!svn/ver/35731/trunk/src/login
+END
+ipban.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/HerculesWS/Hercules/!svn/ver/35708/trunk/src/login/ipban.h
+END
+lclif.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/HerculesWS/Hercules/!svn/ver/33063/trunk/src/login/lclif.h
+END
+loginlog.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/HerculesWS/Hercules/!svn/ver/35708/trunk/src/login/loginlog.h
+END
+Makefile.in
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/HerculesWS/Hercules/!svn/ver/33923/trunk/src/login/Makefile.in
+END
+account.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/HerculesWS/Hercules/!svn/ver/35708/trunk/src/login/account.h
+END
+HPMlogin.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/HerculesWS/Hercules/!svn/ver/22437/trunk/src/login/HPMlogin.h
+END
+ipban_sql.c
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/HerculesWS/Hercules/!svn/ver/35708/trunk/src/login/ipban_sql.c
+END
+login.c
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/HerculesWS/Hercules/!svn/ver/35731/trunk/src/login/login.c
+END
+lclif.c
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/HerculesWS/Hercules/!svn/ver/34771/trunk/src/login/lclif.c
+END
+loginlog_sql.c
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/HerculesWS/Hercules/!svn/ver/35708/trunk/src/login/loginlog_sql.c
+END
+account_sql.c
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/HerculesWS/Hercules/!svn/ver/35708/trunk/src/login/account_sql.c
+END
+lclif.p.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/HerculesWS/Hercules/!svn/ver/33063/trunk/src/login/lclif.p.h
+END
+HPMlogin.c
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/HerculesWS/Hercules/!svn/ver/34771/trunk/src/login/HPMlogin.c
+END
+login.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/HerculesWS/Hercules/!svn/ver/35708/trunk/src/login/login.h
+END

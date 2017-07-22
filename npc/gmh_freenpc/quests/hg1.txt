@@ -1,0 +1,250 @@
+//===== eAthena Script =======================================
+//= Quests: Hokage Hat, Kisuke Hat, Hanging Dolls, Luffy Hat, Dowry Hat, Toad Hat, Traveler's Hat, Phreeoni Hat
+//============================================================
+
+prontera,143,170,5	script	Headgears#h1-1	4_M_GREATPO,{
+
+ mes "[Quest]";
+ mes callfunc("F_Hi");
+ mes "I can make some headgears for you.";
+ next;
+ menu "Hokage Hat",-,"Kisuke Hat",M_2,"Hanging Dolls",M_3,"Luffy Hat",M_4,"Dowry Hat",M_5,"Toad Hat",M_6,"Travaler's Hat",M_7,"Phreeoni Hat",M_8,"Leave",M_exit;
+
+ mes "[Quest]";
+ mes "Str + 15";
+ next;
+ mes "[Quest]";
+ mes "For this Headgear I'll need:";
+ mes "500 Sharp Leaf and";
+ mes "1 Zealotus Egg";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(7100) < 500 && countitem(9026) < 1 ) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 7100,500;
+ delitem 9026,1;
+ getitem 20075,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+M_2:
+ mes "[Quest]";
+ mes "Agi + 15";
+ next;
+ mes "[Quest]";
+ mes "For this Headgear I'll need:";
+ mes "500 Gold and";
+ mes "1 Deviruchi Egg";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(969) < 500 && countitem(9023) < 1 ) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 969,500;
+ delitem 9023,1;
+ getitem 20082,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+M_3:
+ mes "[Quest]";
+ mes "Int + 15";
+ mes "Increase damage of Acid Demonstration by 50%.";
+ next;
+ mes "[Quest]";
+ mes "For this Headgear I'll need:";
+ mes "500 Black Cat Doll and";
+ mes "10 Osiris Doll";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(751) < 10 && countitem(7206) < 500 ) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 751,10;
+ delitem 7206,500;
+ getitem 20071,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+M_4:
+ mes "[Quest]";
+ mes "Str + 20";
+ mes "Hit + 200";
+ next;
+ mes "[Quest]";
+ mes "For this Headgear I'll need:";
+ mes "750 Straw Basket and";
+ mes "750 Piece of Bamboo";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(7299) < 750 && countitem(7150) < 750 ) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 7299,750;
+ delitem 7150,750;
+ getitem 20084,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+M_5:
+ mes "[Quest]";
+ mes "Dex + 20";
+ next;
+ mes "[Quest]";
+ mes "For this Headgear I'll need:";
+ mes "750 Straw Basket and";
+ mes "750 Piece of Bamboo";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(7299) < 750 && countitem(7150) < 750 ) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 7299,750;
+ delitem 7150,750;
+ getitem 20058,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+M_6:
+ mes "[Quest]";
+ mes "Vit + 20";
+ next;
+ mes "[Quest]";
+ mes "For this Headgear I'll need:";
+ mes "1500 Mushroom Spore";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(921) < 1500 ) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 921,1500;
+ getitem 20110,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+M_7:
+ mes "[Quest]";
+ mes "Luk + 20";
+ mes "CritAtk + 20%";
+ next;
+ mes "[Quest]";
+ mes "For this Headgear I'll need:";
+ mes "750 Straw Basket and";
+ mes "750 Piece of Bamboo";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(7299) < 750 && countitem(7150) < 750 ) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 7299,750;
+ delitem 7150,750;
+ getitem 20111,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+M_8:
+ mes "[Quest]";
+ mes "Dex + 10";
+ mes "Hit + 500";
+ next;
+ mes "[Quest]";
+ mes "For this Headgear I'll need:";
+ mes "500 Orc's Fang and";
+ mes "5 Phreeoni Card";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(922) < 500 && countitem(4121) < 5 ) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 922,500;
+ delitem 4121,5;
+ getitem 20093,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+M_exit:
+ mes "[Quest]";
+ mes callfunc("F_Bye");
+ close;
+}

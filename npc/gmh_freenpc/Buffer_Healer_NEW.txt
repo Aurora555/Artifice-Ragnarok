@@ -1,0 +1,106 @@
+//* Healer
+//***** By: ************************************************** 
+//* FatterKiller|ROCREW
+//**** Current Version: ************************************** 
+//* 1.0
+//** Compatible With: ****************************************
+//* eAthena SVN
+//**** Description: ******************************************
+//* Healer
+//**** Additional Comments:***********************************
+//* 1.0 First version. [Fatterkiller|ROcrew]
+//************************************************************
+prontera,148,186,5	script	Healer	4_PORING,{
+
+	set .@Price,0;	// Zeny required for heal
+	set .@Buffs,0;	// Also buff players? (1: yes / 0: no)
+	set .@Delay,3;	// Heal delay, in seconds
+
+	callfunc "F_ClearGarbage",0;
+	if (@HD > gettimetick(2)) end;
+	if (.@Price) {
+		message strcharinfo(0),"Healing costs "+.@Price+" Zeny.";
+		if (Zeny < .@Price) end;
+		if(select("^0055FFHeal^000000:^777777Cancel^000000")==2) end;
+		set Zeny, Zeny-.@Price;
+	}
+	skilleffect 28,9999;
+	percentheal 100,100;
+	emotion e_kis;
+	if (.@Buffs) {
+		sc_start 30,360000,10; specialeffect2 42; //Blessing
+		sc_start 32,360000,10; specialeffect2 37; //Agi Up
+	}
+	if (getbrokenid(1) >= 1) {
+		repairall;
+	}
+	set @NonIDCount, 0;
+	getinventorylist;
+	for(set @i, 0; @i < @inventorylist_count; set @i, @i + 1) {
+		if (@inventorylist_identify[@i] == 0) {
+			set @NonIDCount, @NonIDCount + 1;
+		}
+	}
+	if (@NonIDCount >= 1) {
+		for(set @i, 0; @i < @inventorylist_count; set @i, @i + 1) {
+		if (!@inventorylist_identify[@i]) {
+			delitem2 @inventorylist_id[@i],1,0,0,0,0,0,0,0;
+			getitem @inventorylist_id[@i],1;
+			}
+		}
+	}
+	if (.@Delay) set @HD, gettimetick(2)+.@Delay;
+	end;
+OnInit:
+waitingroom "Healer",0;
+end;
+}
+
+
+//===================== Clone Npc==============================================
+alberta,31,240,4	duplicate(Healer)	Healer#02	4_PORING
+aldebaran,145,118,4	duplicate(Healer)	Healer#03	4_PORING
+amatsu,192,81,1	duplicate(Healer)	Healer#04	4_PORING
+ayothaya,144,117,6	duplicate(Healer)	Healer#05	4_PORING
+brasilis,194,221,6	duplicate(Healer)	Healer#06	4_PORING
+comodo,194,158,4	duplicate(Healer)	Healer#07	4_PORING
+dewata,204,186,3	duplicate(Healer)	Healer#08	4_PORING
+eclage,105,35,4	duplicate(Healer)	Healer#09	4_PORING
+einbroch,59,205,4	duplicate(Healer)	Healer#10	4_PORING
+einbroch,243,189,2	duplicate(Healer)	Healer#11	4_PORING
+einbech,135,249,4	duplicate(Healer)	Healer#12	4_PORING
+dicastes01,201,194,4	duplicate(Healer)	Healer#13	4_PORING
+geffen,115,66,4	duplicate(Healer)	Healer#14	4_PORING
+gonryun,151,130,4	duplicate(Healer)	Healer#15	4_PORING
+izlude,133,117,4	duplicate(Healer)	Healer#16	4_PORING
+hugel,88,151,5	duplicate(Healer)	Healer#17	4_PORING
+lighthalzen,155,79,6	duplicate(Healer)	Healer#18	4_PORING
+louyang,210,106,4	duplicate(Healer)	Healer#19	4_PORING
+malangdo,226,188,4	duplicate(Healer)	Healer#20	4_PORING
+malaya,205,205,6	duplicate(Healer)	Healer#21	4_PORING
+manuk,256,176,6	duplicate(Healer)	Healer#22	4_PORING
+mid_camp,203,289,6	duplicate(Healer)	Healer#23	4_PORING
+mora,106,100,6	duplicate(Healer)	Healer#24	4_PORING
+morocc,156,95,4	duplicate(Healer)	Healer#25	4_PORING
+moscovia,215,194,6	duplicate(Healer)	Healer#26	4_PORING
+niflheim,188,180,5	duplicate(Healer)	Healer#27	4_PORING
+payon,182,110,4	duplicate(Healer)	Healer#29	4_PORING
+rachel,125,116,6	duplicate(Healer)	Healer#30	4_PORING
+splendide,201,153,4	duplicate(Healer)	Healer#31	4_PORING
+thor_camp,249,74,4	duplicate(Healer)	Healer#32	4_PORING
+umbala,132,130,4	duplicate(Healer)	Healer#33	4_PORING
+veins,217,121,4	duplicate(Healer)	Healer#34	4_PORING
+xmas,150,136,4	duplicate(Healer)	Healer#35	4_PORING
+yuno,137,162,4	duplicate(Healer)	Healer#36	4_PORING
+turbo_room,100,115,4	duplicate(Healer)	Healer#37	4_PORING
+/*
+pro_gh001,54,27,1	duplicate(Healer)	Healer#38	794
+pro_gh002,54,27,1	duplicate(Healer)	Healer#39	794
+pro_gh003,54,27,1	duplicate(Healer)	Healer#40	794
+pro_gh004,54,27,1	duplicate(Healer)	Healer#41	794
+pro_gh005,54,27,1	duplicate(Healer)	Healer#42	794
+pro_gh006,54,27,1	duplicate(Healer)	Healer#43	794
+pro_gh007,54,27,1	duplicate(Healer)	Healer#44	794
+caspen,160,215,5	duplicate(Healer)	Healer#45	4_PORING
+nov_fild,110,67,5	duplicate(Healer)	Healer#46	446
+*/

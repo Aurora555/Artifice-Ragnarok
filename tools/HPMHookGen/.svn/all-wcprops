@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/HerculesWS/Hercules/!svn/ver/34771/trunk/tools/HPMHookGen
+END
+HPMDataCheckGen.pl
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/HerculesWS/Hercules/!svn/ver/34771/trunk/tools/HPMHookGen/HPMDataCheckGen.pl
+END
+doxygen.conf
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/HerculesWS/Hercules/!svn/ver/30173/trunk/tools/HPMHookGen/doxygen.conf
+END
+Makefile.in
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/HerculesWS/Hercules/!svn/ver/22437/trunk/tools/HPMHookGen/Makefile.in
+END
+HPMHookGen.pl
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/HerculesWS/Hercules/!svn/ver/34771/trunk/tools/HPMHookGen/HPMHookGen.pl
+END

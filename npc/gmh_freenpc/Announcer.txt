@@ -1,0 +1,25 @@
+////=========================[ 	   CreaTeD 10 august 2009  ]======================////
+////========================[ 	  Created By Andrew RicozTa ]==========================////
+////=======================[ Special Thanks To Aozi & GM Ocean ]=====================////
+////======================[ Auto Announce Script For Your Server ]=================////
+////====================[ Tested On MiracLe Ragnarok - Stable 13887 ]============////
+////=====================[ 		 Version 1.0		  ]============////
+
+-	script	Andrew Ric0zTa Inside	-1,{
+
+	OnInit:
+	while(1) {
+
+	announce "[ Game News ]: Always remember Game Master will never ask for your PASSWORD, any hacked or scammed items will never be entertained by GM Staffs, so be careful players.",0;
+	sleep 1000000;
+
+	announce "[ Game News ]: We are accepting donations, but please note that this is not mandatory and hardwork for everyone is encourage.",0;
+	sleep 1000000;
+
+	announce "[ Game News ]: Visit our official forum and for more infos, news and updates.",0;
+	sleep 1000000;
+
+	announce "[ Game News ]: You can post your comment and suggestion to our official facebook page.",0;
+	sleep 1000000;
+    }
+}

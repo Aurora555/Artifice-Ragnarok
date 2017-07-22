@@ -1,0 +1,105 @@
+//===== eAthena Script =======================================
+//= Quests: Gaara's Gourd, Skateboard, Sword Of Lore
+//============================================================
+
+prontera,134,170,5	script	Speedy	JP_ARUGORU,{
+
+ mes "[Quest]";
+ mes callfunc("F_Hi");
+ mes "I can make some speed equips for you.";
+ next;
+ menu "Gaara's Gourd",-,"Skateboard",M_2,"Sword Of Lore",M_3,"Leave",M_exit;
+
+ mes "[Quest]";
+ mes "Increase Walking Speed to Level 3";
+ next;
+ mes "[Quest]";
+ mes "For this Quest You'll need:";
+ mes "1 Skateboard,";
+ mes "500 Dry Sand,";
+ mes "1000 Fine Sand and";
+ mes "500 Million Zeny";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(7264) < 500 && countitem(7043) < 1000 && countitem(20107) < 1 && Zeny < 500000000) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 7264,500;
+ delitem 7043,1000;
+ delitem 20107,1;
+ set Zeny,Zeny-500000000;
+ getitem 20066,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+M_2:
+ mes "[Quest]";
+ mes "Increase Walking Speed to Level 2";
+ next;
+ mes "[Quest]";
+ mes "For this Quest You'll need:";
+ mes "1 Sword Of Lore and";
+ mes "500 used Iron Plate";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(7319) < 500 && countitem(20108) < 1) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 7319,500;
+ delitem 20108,1;
+ getitem 20107,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+M_3:
+ mes "[Quest]";
+ mes "Increase Walking Speed to Level 1";
+ next;
+ mes "[Quest]";
+ mes "For this Quest You'll need:";
+ mes "100 Broken Sword";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(7110) < 100) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 7110,100;
+ getitem 20108,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+M_exit:
+ mes "[Quest]";
+ mes callfunc("F_Bye");
+ close;
+}

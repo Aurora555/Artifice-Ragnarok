@@ -1,0 +1,202 @@
+//===== eAthena Script =======================================
+//= Quests: Pink Scarf, Blue Scarf, Cyan Scarf, Green Scarf, Red Scarf, Red2 Scarf
+//============================================================
+
+prontera,137,170,5	script	Scarfs	JP_RUFAKU,{
+
+ mes "[Quest]";
+ mes callfunc("F_Hi");
+ mes "I can make some Scarfs for you.";
+ next;
+ menu "Pink Scarf",-,"Blue Scarf",M_2,"Cyan Scarf",M_3,"Green Scarf",M_4,"Red Scarf",M_5,"Red2 Scarf",M_6,"Leave",M_exit;
+
+ mes "[Quest]";
+ mes "Luk + 5";
+ mes "Gain protection from the Freeze status.";
+ mes "Resistance to Water Property by 20%.";
+ next;
+ mes "[Quest]";
+ mes "For this Scarf I'll need:";
+ mes "1000 Soft Silk and";
+ mes "10 Million Zeny";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(7166) < 1000 && Zeny < 10000000) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 7166,1000;
+ set Zeny,Zeny-10000000;
+ getitem 20103,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+M_2:
+ mes "[Quest]";
+ mes "Int + 5";
+ mes "Gain protection from the Freeze status.";
+ mes "Resistance to Water Property by 20%.";
+ next;
+ mes "[Quest]";
+ mes "For this Scarf I'll need:";
+ mes "1000 Soft Silk and";
+ mes "10 Million Zeny";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(7166) < 1000 && Zeny < 10000000) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 7166,1000;
+ set Zeny,Zeny-10000000;
+ getitem 20100,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+M_3:
+ mes "[Quest]";
+ mes "Agi + 5";
+ mes "Gain protection from the Freeze status.";
+ mes "Resistance to Water Property by 20%.";
+ next;
+ mes "[Quest]";
+ mes "For this Scarf I'll need:";
+ mes "1000 Soft Silk and";
+ mes "10 Million Zeny";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(7166) < 1000 && Zeny < 10000000) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 7166,1000;
+ set Zeny,Zeny-10000000;
+ getitem 20101,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+M_4:
+ mes "[Quest]";
+ mes "Dex + 5";
+ mes "Gain protection from the Freeze status.";
+ mes "Resistance to Water Property by 20%.";
+ next;
+ mes "[Quest]";
+ mes "For this Scarf I'll need:";
+ mes "1000 Soft Silk and";
+ mes "10 Million Zeny";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(7166) < 1000 && Zeny < 10000000) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 7166,1000;
+ set Zeny,Zeny-10000000;
+ getitem 20102,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+M_5:
+ mes "[Quest]";
+ mes "Str + 5";
+ mes "Gain protection from the Freeze status.";
+ mes "Resistance to Water Property by 20%.";
+ next;
+ mes "[Quest]";
+ mes "For this Scarf I'll need:";
+ mes "1000 Soft Silk and";
+ mes "10 Million Zeny";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(7166) < 1000 && Zeny < 10000000) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 7166,1000;
+ set Zeny,Zeny-10000000;
+ getitem 20104,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+M_6:
+ mes "[Quest]";
+ mes "Vit + 5";
+ mes "Gain protection from the Freeze status.";
+ mes "Resistance to Water Property by 20%.";
+ next;
+ mes "[Quest]";
+ mes "For this Scarf I'll need:";
+ mes "1000 Soft Silk and";
+ mes "10 Million Zeny";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(7166) < 1000 && Zeny < 10000000) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 7166,1000;
+ set Zeny,Zeny-10000000;
+ getitem 20105,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+M_exit:
+ mes "[Quest]";
+ mes callfunc("F_Bye");
+ close;
+}

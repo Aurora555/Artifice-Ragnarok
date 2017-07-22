@@ -1,0 +1,155 @@
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/HerculesWS/Hercules/!svn/ver/35868/trunk/db/pre-re
+END
+item_packages.conf
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/HerculesWS/Hercules/!svn/ver/22437/trunk/db/pre-re/item_packages.conf
+END
+exp_homun.txt
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/HerculesWS/Hercules/!svn/ver/21319/trunk/db/pre-re/exp_homun.txt
+END
+mob_boss.txt
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/HerculesWS/Hercules/!svn/ver/11003/trunk/db/pre-re/mob_boss.txt
+END
+skill_tree.conf
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/HerculesWS/Hercules/!svn/ver/30173/trunk/db/pre-re/skill_tree.conf
+END
+item_chain.conf
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/HerculesWS/Hercules/!svn/ver/22437/trunk/db/pre-re/item_chain.conf
+END
+homunculus_db.txt
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/HerculesWS/Hercules/!svn/ver/19647/trunk/db/pre-re/homunculus_db.txt
+END
+item_db.conf
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/HerculesWS/Hercules/!svn/ver/35868/trunk/db/pre-re/item_db.conf
+END
+item_group.conf
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/HerculesWS/Hercules/!svn/ver/30173/trunk/db/pre-re/item_group.conf
+END
+exp_guild.txt
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/HerculesWS/Hercules/!svn/ver/11003/trunk/db/pre-re/exp_guild.txt
+END
+attr_fix.txt
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/HerculesWS/Hercules/!svn/ver/11003/trunk/db/pre-re/attr_fix.txt
+END
+mob_skill_db.txt
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/HerculesWS/Hercules/!svn/ver/21319/trunk/db/pre-re/mob_skill_db.txt
+END
+size_fix.txt
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/HerculesWS/Hercules/!svn/ver/21319/trunk/db/pre-re/size_fix.txt
+END
+item_combo_db.txt
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/HerculesWS/Hercules/!svn/ver/22437/trunk/db/pre-re/item_combo_db.txt
+END
+map_zone_db.conf
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/HerculesWS/Hercules/!svn/ver/22437/trunk/db/pre-re/map_zone_db.conf
+END
+refine_db.conf
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/HerculesWS/Hercules/!svn/ver/22437/trunk/db/pre-re/refine_db.conf
+END
+job_db.conf
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/HerculesWS/Hercules/!svn/ver/22437/trunk/db/pre-re/job_db.conf
+END
+statpoint.txt
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/HerculesWS/Hercules/!svn/ver/11003/trunk/db/pre-re/statpoint.txt
+END
+mob_db.conf
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/HerculesWS/Hercules/!svn/ver/30173/trunk/db/pre-re/mob_db.conf
+END
+map_cache.dat
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/HerculesWS/Hercules/!svn/ver/21711/trunk/db/pre-re/map_cache.dat
+END
+skill_db.conf
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/HerculesWS/Hercules/!svn/ver/34771/trunk/db/pre-re/skill_db.conf
+END
+mob_branch.txt
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/HerculesWS/Hercules/!svn/ver/11003/trunk/db/pre-re/mob_branch.txt
+END
+mob_poring.txt
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/HerculesWS/Hercules/!svn/ver/11003/trunk/db/pre-re/mob_poring.txt
+END
+exp.txt
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/HerculesWS/Hercules/!svn/ver/21319/trunk/db/pre-re/exp.txt
+END
+pet_db.txt
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/HerculesWS/Hercules/!svn/ver/23214/trunk/db/pre-re/pet_db.txt
+END
+mob_race2_db.txt
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/HerculesWS/Hercules/!svn/ver/11003/trunk/db/pre-re/mob_race2_db.txt
+END

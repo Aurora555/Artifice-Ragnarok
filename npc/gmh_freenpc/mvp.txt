@@ -1,0 +1,80 @@
+//===== Hercules Script ======================================
+//= MVP Spawn Timer
+//===== By: ==================================================
+//= Don Juan
+//===== Current Version: =====================================
+//= 1.0
+//===== Description: =========================================
+//= Control MVP Spawn with script. MVP will respawn on server start or reload.
+//===== Additional Comments: =================================
+//= 1.0 Remove/Comment all MVP spawn at npc/pre-re/mobs/dungeons/ or /fields.  
+//============================================================
+
+-	script	MVPTimer	-1,{
+OnInit:
+	// Mvp ids
+	setarray $MVP_ID[0],	1038,1039,1046,1046,1059,1086,1087,1087,1112,1115,
+				1115,1147,1147,1150,1157,1159,1190,1251,1252,1272,
+				1272,1312,1373,1389,1418,1492,1511,1583,1708;
+
+	// Mvp maps
+	setarray $MVP_Maps$[0],	"moc_pryd04","prt_maze03","gef_dun02","gld_dun02","mjolnir_04","prt_sewb4","gef_fild02","gef_fild14","treasure02","gld_dun01",
+				"pay_fild10","gld_dun03","anthell02","pay_dun04","in_sphinx5","moc_fild17","gef_fild10","xmas_dun02","xmas_fild01","gl_chyard",
+				"gld_dun04","tur_dun04","niflheim","gef_dun01","gon_dun03","ama_dun03","moc_pryd06","beach_dun",thana_boss;
+
+	// Respawn time (minutes)
+	setarray $MVP_Time[0],	60,60,60,60,60,60,60,60,60,60,
+				60,60,60,60,60,60,60,60,60,60,
+				60,60,61,60,60,60,60,60,60;
+
+	// Initialize MVP Record Database
+	query_sql("CREATE TABLE IF NOT EXISTS `mvp` (`char_id` int(11) unsigned NOT NULL AUTO_INCREMENT, `name` varchar(255) NOT NULL DEFAULT '0', `kills` int(11) unsigned NOT NULL DEFAULT '0',`points` int(11) unsigned NOT NULL DEFAULT '0', `level` int(11) unsigned NOT NULL DEFAULT '0', KEY `char_id` (`char_id`), KEY `kills` (`kills`), KEY `points` (`level`), KEY `level` (`level`)) ENGINE=MyISAM");
+
+	// Reward Points
+	setarray $MVP_Reward[0],0,0,0,0,0,0,0,0,0,0,
+				0,0,0,0,0,0,0,0,0,0,
+				0,0,0,0,0,0,0,0,0;
+	
+	// Respawn only undead MVP's on server start or reload					
+	for( set .@i,0; .@i < getarraysize($MVP_ID); set .@i, .@i+1 )
+	{
+		// check whether MPV is alive or $MVP_Status variable is not yet set.  
+		// 1 - Dead, 2 - Alive
+		if ( $MVP_Status[.@i] == 2 || $MVP_Status[.@i] == 0 || $MVP_TimeStamp[.@i] == 0 ) {  
+			monster $MVP_Maps$[.@i],0,0,"--ja--",$MVP_ID[.@i],1; 
+			set $MVP_Status[.@i], 2;
+			set $MVP_TimeStamp[.@i], gettimetick(2);
+		} else { // don't respawn MVP and wait for next spawn time
+			set $MVP_Status[.@i], 1;
+		}	
+	}					
+	initnpctimer;
+	OnTimer60000: // Check every 1 minute
+		for( set .@i,0; .@i < getarraysize($MVP_ID); set .@i, .@i+1 )
+		{
+			set .@time, $MVP_Time[.@i]*60; // Conversion to seconds so we can use gettimetick
+			if( ($MVP_TimeStamp[.@i] + .@time) <= gettimetick(2) && $MVP_Status[.@i] == 1 ) {
+				monster $MVP_Maps$[.@i],0,0,"--ja--",$MVP_ID[.@i],1;
+				set $MVP_TimeStamp[.@i], gettimetick(2);
+				set $MVP_Status[.@i], 2;
+			}
+		}
+		setnpctimer 0;
+		end;
+	
+	OnNPCKillEvent:
+		if( getmonsterinfo(killedrid, MOB_MVPEXP) > 0 ) // process only MVP Monsters
+			for( set .@i,0; .@i < getarraysize($MVP_ID); set .@i, .@i+1 )
+			{
+				if( (killedrid == $MVP_ID[.@i]) && (strcharinfo(3) == $MVP_Maps$[.@i])) {
+					set $MVP_Status[.@i],1; // set flag  mvp has died
+					set $MVP_TimeStamp[.@i], gettimetick(2); // set mpv death time
+					// Update MVP Records
+					query_sql "SELECT `name` FROM `mvp` WHERE `char_id`="+getcharid(0)+"",.@name$;
+					if ( .@name$ == "" ) { query_sql "INSERT INTO `mvp` (`char_id`,`name`,`kills`,`points`) VALUES (" + getcharid(0) + ",'" + escape_sql(strcharinfo(0)) + "',1,1)"; end; }
+					query_sql "UPDATE `mvp` SET `kills` = (`kills` + 1), `points` = (`points` +1) WHERE `char_id`=" + getcharid(0);					
+				}	
+			}
+		end;
+}
+

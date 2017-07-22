@@ -1,0 +1,238 @@
+//===== eAthena Script =======================================
+//= Quests: Flower Aura, Bubble Ring, Night Ring, Nightmare Ring, Poring Aura, Cookie Ring, Celestial Veil
+//============================================================
+
+quiz_02,310,246,4	script	Rings/Auras	4_F_NYDHOG,{
+
+ mes "[Quest]";
+ mes callfunc("F_Hi");
+ mes "Let me give you some power.";
+ next;
+ menu "Flower Aura",-,"Bubble Ring",M_2,"Night Ring",M_3,"Nightmare Ring",M_4,"Poring Aura",M_5,"Cookie Ring",M_6,"Celestial Veil",M_7,"Leave",M_exit;
+
+ mes "[Quest]";
+ mes "Vit + 10";
+ mes "HP + 20%";
+ next;
+ mes "For this Quest You'll need:";
+ mes "100 Peco Peco Card,";
+ mes "10 Grand Peco Card and";
+ mes "2000 Shoot";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(4031) < 100 && countitem(4161) < 10 && countitem(711) < 2000) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 4031,100;
+ delitem 4161,10;
+ delitem 711,2000;
+ getitem 20064,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+M_2:
+ mes "[Quest]";
+ mes "Luk + 10";
+ mes "HP + 20%";
+ next;
+ mes "For this Quest You'll need:";
+ mes "100 Peco Peco Card,";
+ mes "10 Grand Peco Card and";
+ mes "2000 Fin";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(4031) < 100 && countitem(4161) < 10 && countitem(951) < 2000) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 4031,100;
+ delitem 4161,10;
+ delitem 951,2000;
+ getitem 20046,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+
+M_3:
+ mes "[Quest]";
+ mes "Agi + 10";
+ mes "HP + 20%";
+ next;
+ mes "For this Quest You'll need:";
+ mes "100 Peco Peco Card,";
+ mes "10 Grand Peco Card and";
+ mes "2000 Rotten Bandage";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(4031) < 100 && countitem(4161) < 10 && countitem(930) < 2000) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 4031,100;
+ delitem 4161,10;
+ delitem 930,2000;
+ getitem 20087,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+
+M_4:
+ mes "[Quest]";
+ mes "Str + 10";
+ mes "HP + 20%";
+ next;
+ mes "For this Quest You'll need:";
+ mes "100 Peco Peco Card,";
+ mes "10 Grand Peco Card and";
+ mes "2000 Skel-Bone";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(4031) < 100 && countitem(4161) < 10 && countitem(932) < 2000) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 4031,100;
+ delitem 4161,10;
+ delitem 932,2000;
+ getitem 20086,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+
+M_5:
+ mes "[Quest]";
+ mes "HP + 20%";
+ mes "Add a 10% resistance against All Elements.";
+ next;
+ mes "For this Quest You'll need:";
+ mes "100 Peco Peco Card,";
+ mes "10 Grand Peco Card and";
+ mes "2000 Large Jellopy";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(4031) < 100 && countitem(4161) < 10 && countitem(7126) < 2000) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 4031,100;
+ delitem 4161,10;
+ delitem 7126,2000;
+ getitem 20094,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+
+M_6:
+ mes "[Quest]";
+ mes "Dex + 10";
+ mes "HP + 20%";
+ next;
+ mes "For this Quest You'll need:";
+ mes "100 Peco Peco Card,";
+ mes "10 Grand Peco Card and";
+ mes "2000 Aquamarine";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(4031) < 100 && countitem(4161) < 10 && countitem(720) < 2000) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 4031,100;
+ delitem 4161,10;
+ delitem 720,2000;
+ getitem 20050,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+
+M_7:
+ mes "[Quest]";
+ mes "HP + 20%";
+ mes "Matk + 20%";
+ next;
+ mes "For this Quest You'll need:";
+ mes "100 Peco Peco Card,";
+ mes "10 Grand Peco Card and";
+ mes "2000 Soft Silk";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+ 
+ if(countitem(4031) < 100 && countitem(4161) < 10 && countitem(7166) < 2000) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 4031,100;
+ delitem 4161,10;
+ delitem 7166,2000;
+ getitem 20048,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+M_exit:
+ mes "[Quest]";
+ mes callfunc("F_Bye");
+ close;
+}

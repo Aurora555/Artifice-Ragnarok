@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/HerculesWS/Hercules/!svn/ver/34771/trunk/src/tool
+END
+Makefile.in
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/HerculesWS/Hercules/!svn/ver/33063/trunk/src/tool/Makefile.in
+END
+mapcache.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/HerculesWS/Hercules/!svn/ver/34771/trunk/src/tool/mapcache.c
+END

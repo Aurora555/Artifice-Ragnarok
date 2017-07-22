@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/HerculesWS/Hercules/!svn/ver/35814/trunk/vcproj-14
+END
+plugin-HPMHooking_login.vcxproj
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/HerculesWS/Hercules/!svn/ver/30173/trunk/vcproj-14/plugin-HPMHooking_login.vcxproj
+END
+char-server.vcxproj.filters
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/HerculesWS/Hercules/!svn/ver/34771/trunk/vcproj-14/char-server.vcxproj.filters
+END
+map-server.vcxproj.filters
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/HerculesWS/Hercules/!svn/ver/22437/trunk/vcproj-14/map-server.vcxproj.filters
+END
+mapcache.vcxproj.filters
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/HerculesWS/Hercules/!svn/ver/22437/trunk/vcproj-14/mapcache.vcxproj.filters
+END
+login-server.vcxproj
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/HerculesWS/Hercules/!svn/ver/34771/trunk/vcproj-14/login-server.vcxproj
+END
+plugin-HPMHooking_char.vcxproj
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/HerculesWS/Hercules/!svn/ver/30173/trunk/vcproj-14/plugin-HPMHooking_char.vcxproj
+END
+plugin-HPMHooking_map.vcxproj
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/HerculesWS/Hercules/!svn/ver/30173/trunk/vcproj-14/plugin-HPMHooking_map.vcxproj
+END
+plugin-sample.vcxproj
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/HerculesWS/Hercules/!svn/ver/30173/trunk/vcproj-14/plugin-sample.vcxproj
+END
+char-server.vcxproj
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/HerculesWS/Hercules/!svn/ver/34771/trunk/vcproj-14/char-server.vcxproj
+END
+map-server.vcxproj
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/HerculesWS/Hercules/!svn/ver/35814/trunk/vcproj-14/map-server.vcxproj
+END
+mapcache.vcxproj
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/HerculesWS/Hercules/!svn/ver/22437/trunk/vcproj-14/mapcache.vcxproj
+END
+login-server.vcxproj.filters
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/HerculesWS/Hercules/!svn/ver/34771/trunk/vcproj-14/login-server.vcxproj.filters
+END

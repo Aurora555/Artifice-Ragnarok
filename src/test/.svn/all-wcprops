@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/HerculesWS/Hercules/!svn/ver/34771/trunk/src/test
+END
+Makefile.in
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/HerculesWS/Hercules/!svn/ver/33063/trunk/src/test/Makefile.in
+END
+test_spinlock.c
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/HerculesWS/Hercules/!svn/ver/34771/trunk/src/test/test_spinlock.c
+END
+test_libconfig.c
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/HerculesWS/Hercules/!svn/ver/33923/trunk/src/test/test_libconfig.c
+END

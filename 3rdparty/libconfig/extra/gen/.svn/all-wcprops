@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/HerculesWS/Hercules/!svn/ver/33063/trunk/3rdparty/libconfig/extra/gen
+END
+Makefile.in
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/HerculesWS/Hercules/!svn/ver/13883/trunk/3rdparty/libconfig/extra/gen/Makefile.in
+END
+scanner.l
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/HerculesWS/Hercules/!svn/ver/30173/trunk/3rdparty/libconfig/extra/gen/scanner.l
+END
+clangwarnings.patch
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/HerculesWS/Hercules/!svn/ver/30173/trunk/3rdparty/libconfig/extra/gen/clangwarnings.patch
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/HerculesWS/Hercules/!svn/ver/13883/trunk/3rdparty/libconfig/extra/gen/Makefile
+END
+grammar.y
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/HerculesWS/Hercules/!svn/ver/33063/trunk/3rdparty/libconfig/extra/gen/grammar.y
+END

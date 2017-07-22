@@ -1,0 +1,61 @@
+dewata,217,212,3	script	Derefiner	63,{
+
+	mes .NpcName$;
+	mes "I'm the Black Armsmith.";
+	mes "I can derefine all kinds of weapons, armor and equipment, so let me";
+	mes "know what you want me to derefine.";
+	next;
+	
+	setarray .@position$[1], "Head","Body","Left hand","Right hand","Robe","Shoes","Accessory 1","Accessory 2","Middle Headgear","Lower Headgear";
+	set .@menu$, "";
+	for(.@i = 1; .@i <= 10; .@i++) {
+		if(getequipisequiped(.@i)) {
+			set .@menu$, .@menu$ + .@position$[.@i] + "-" + "[" + getequipname(.@i) + "]";
+			.@equipped = 1;
+		}
+		set .@menu$, .@menu$ + ":";
+	}
+		if (.@equipped == 0) {
+		mes .NpcName$;
+		mes "I don't think I can refine any items you have...";
+		close;
+	}
+	// Get part to upgrade
+	@part = select(.@menu$);
+
+	if(!getequipisequiped(@part)) {
+		mes .NpcName$;
+		mes "You're not wearing";
+		mes "anything there that";
+		mes "I can derefine.";
+		emotion e_an;
+		close;
+	}
+	else if(getequiprefinerycnt(@part) == 0) {
+		mes .NpcName$;
+		mes "I can't refine this";
+		mes "any more. This is as";
+		mes "derefined as it gets!";
+		close;
+	}
+	else{	
+		input(.@number);
+		if((getequiprefinerycnt(@part) - .@number) < 0){
+			mes .NpcName$;
+			mes "This item cannot have negative refine rate.";
+			mes "Please come back when you are decided.";
+			close;
+		}
+		downrefitem @part,.@number;
+		close;
+	}
+
+OnInit:
+		// ======================
+		// 		Basic Settings
+		// ======================
+		waitingroom "Variable derefiner",0;
+		.NpcName$ = "[Derefiner]";	// Name of the NPC for dialogues
+		.MaxValue = 100;	// The maximum refine
+		end;
+}

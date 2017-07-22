@@ -1,0 +1,16 @@
+prontera,179,148,3	script	Skull Exchanger	4_M_MOCASS1,{
+mes "^0000EE[Skull Exchanger]^000000";
+mes "I will exchange every 20 Skulls of your to 1 TCG.";
+mes "Currently you have ^ff0000"+countitem(7420)+" Skulls^000000 which may trade for "+countitem(7420)/20+" TCG.";
+next;
+mes "How many TCG do you want ?.";
+input @amount,0,countitem(7420)/20;
+if ( @amount == 0 ){
+mes "You may come back for a trade again in the future.";
+close;
+}
+mes "You have success trade "+@amount*20+" of Skulls into "+@amount+" of TCG.";
+delitem 7420,@amount*20;
+getitem 7227,@amount;
+close;
+}

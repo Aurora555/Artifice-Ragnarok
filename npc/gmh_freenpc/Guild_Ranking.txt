@@ -1,0 +1,38 @@
+//===== eAthena Script ======================================= 
+//= Amatsu Guides
+//===== By: ================================================== 
+// Rahul Dev
+// Thanks to Myzter
+//===== Current Version: ===================================== 
+//= 1.0
+//===== Compatible With: ===================================== 
+//= eAthena/ rAthena SVN
+//===== Description: ========================================= 
+//= Castle Ranking
+//===== Additional Comments: ================================= 
+//= 1.0 
+//============================================================
+
+dewata,204,190,3	script	Guild Ranking	4_M_CRU_HEAD,{
+
+	// Configurations
+	.@max_ranking = 10;	// Max Rankings to display. 
+	
+
+	// Do not touch
+	for (set .@x,0; .@x < .@max_ranking; set .@x,.@x + 1) {
+		if (.@x) mes "- - - - - - - - - - - - - - -";
+		mes "# ^ff0000" + (.@x + 1) + "^000000: ^0000ff" + ( (.GuildName$[.@x])? .GuildName$[.@x]:"None" ) + "^000000";
+		mes " - Master: ^0000ff" + ( (.GuildMaster$[.@x])? .GuildMaster$[.@x]:"None" ) + "^000000";
+		mes " - Territories: ^ff0000" + .NumCastles[.@x] + "^000000";
+		mes " - Members: ^ff0000" + .NumMembers[.@x] + "^000000";
+	}
+	close;
+
+//OnAgitEnd:
+//OnAgitEnd2:
+OnInit:
+	set .Cnt, query_sql("SELECT (SELECT count(c.castle_id) FROM guild_castle c WHERE c.guild_id = g.guild_id) castles, CONCAT(g.name, ' (LV. ',g.guild_lv,')') guild, count(g.char_id) members, g.master FROM guild g LEFT JOIN guild_member m ON g.guild_id = m.guild_id GROUP BY g.guild_id HAVING castles > 0 ORDER BY castles DESC, guild_lv DESC, members DESC", .NumCastles,.GuildName$,.NumMembers,.GuildMaster$);
+	waitingroom "Top 10 Guild",0;
+	end;
+}

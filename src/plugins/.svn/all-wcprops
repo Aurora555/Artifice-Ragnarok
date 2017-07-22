@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/HerculesWS/Hercules/!svn/ver/36051/trunk/src/plugins
+END
+Makefile.in
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/HerculesWS/Hercules/!svn/ver/33923/trunk/src/plugins/Makefile.in
+END
+sample.c
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/HerculesWS/Hercules/!svn/ver/35726/trunk/src/plugins/sample.c
+END
+HPMHooking.c
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/HerculesWS/Hercules/!svn/ver/34771/trunk/src/plugins/HPMHooking.c
+END
+constdb2doc.c
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/HerculesWS/Hercules/!svn/ver/34771/trunk/src/plugins/constdb2doc.c
+END
+script_mapquit.c
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/HerculesWS/Hercules/!svn/ver/22437/trunk/src/plugins/script_mapquit.c
+END
+db2sql.c
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/HerculesWS/Hercules/!svn/ver/34771/trunk/src/plugins/db2sql.c
+END
+HPMHooking.h
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/HerculesWS/Hercules/!svn/ver/33923/trunk/src/plugins/HPMHooking.h
+END
+generate-translations.c
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/HerculesWS/Hercules/!svn/ver/34771/trunk/src/plugins/generate-translations.c
+END
+dbghelpplug.c
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/HerculesWS/Hercules/!svn/ver/33923/trunk/src/plugins/dbghelpplug.c
+END

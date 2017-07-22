@@ -1,0 +1,69 @@
+// Specific Item Drop Ratio Database
+// Overrides for global item_rate* values from conf/battle/drops.conf
+//
+// Structure of Database:
+// ItemID,Ratio{,MonsterID}
+//
+// Result:
+// ItemID base drop rates defined in mob_db will not get multiplied
+//  by global item_rate* values (aka drop rates) from
+//  conf/battle/drops.conf. Instead Ratio will be used (100 = 1x).
+// If no MonsterID is specified, all monsters will be affected,
+//  otherwise only listed ones.
+//
+// Examples:
+// 909,100 // Jellopies from monsters will drop with 1x drop rate regardless of global drop rate
+// 909,1000 // Jellopies from monsters will drop with 10x drop rate regardless of global drop rate
+// 909,100,1002 // Jellopies from Porings will drop with 1x drop rate. Other monsters that drop Jellopies are unaffected (use global drop rate).
+//
+// Notes:
+// - By default you can list up to 10 MonsterIDs per ItemID.
+//   It can be changed in src/map/mob.c by adjusting MAX_ITEMRATIO_MOBS.
+// - Only ItemIDs up to MAX_ITEMDB are supported (default: 32768).
+// - Does not override item_drop_*_min/max settings.
+// - Does not affect card/item-granted drops. To adjust card/item-granted
+//   drops, edit them in item_db.
+// - Does affect MVP prizes and Treasure Boxes.
+// - You can add only ONE line per ItemID. If you need various ratios
+//   for different monsters, override drop rate with Ratio=100 and edit
+//   base drop rates in mob_db.
+// - This file is reloaded by @reloadmobdb.
+
+748,4000
+732,4000
+731,4000
+730,4000
+2613,4000
+969,4000
+7321,4000
+7117,7500
+7436,7000
+7018,5000
+7035,3000
+7752,7500
+7439,7000
+7513,5000
+7293,5000
+7015,7500
+7437,7000
+7020,5000
+7294,5000
+1015,7500
+7023,7500
+7451,5000
+1061,7500
+7296,5000
+7152,7500
+7290,5000
+929,7500
+7292,5000
+7068,7500
+7297,5000
+720,7500
+7295,5000
+7289,8000
+1040,6000
+7960,10000 // Saga coin
+7227,10000 // Arcane Voucher
+29329,5000 // Hel Coin
+5104,5

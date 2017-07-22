@@ -1,0 +1,113 @@
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/HerculesWS/Hercules/!svn/ver/33063/trunk/3rdparty/libconfig
+END
+scanner.h
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/HerculesWS/Hercules/!svn/ver/30173/trunk/3rdparty/libconfig/scanner.h
+END
+parsectx.h
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/HerculesWS/Hercules/!svn/ver/30173/trunk/3rdparty/libconfig/parsectx.h
+END
+libconfig.h
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/HerculesWS/Hercules/!svn/ver/33063/trunk/3rdparty/libconfig/libconfig.h
+END
+Makefile.in
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/HerculesWS/Hercules/!svn/ver/22437/trunk/3rdparty/libconfig/Makefile.in
+END
+LICENSE
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/HerculesWS/Hercules/!svn/ver/11003/trunk/3rdparty/libconfig/LICENSE
+END
+scanctx.c
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/HerculesWS/Hercules/!svn/ver/33063/trunk/3rdparty/libconfig/scanctx.c
+END
+AUTHORS
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/HerculesWS/Hercules/!svn/ver/30173/trunk/3rdparty/libconfig/AUTHORS
+END
+strbuf.c
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/HerculesWS/Hercules/!svn/ver/30173/trunk/3rdparty/libconfig/strbuf.c
+END
+ChangeLog
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/HerculesWS/Hercules/!svn/ver/30173/trunk/3rdparty/libconfig/ChangeLog
+END
+wincompat.h
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/HerculesWS/Hercules/!svn/ver/30173/trunk/3rdparty/libconfig/wincompat.h
+END
+scanctx.h
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/HerculesWS/Hercules/!svn/ver/33063/trunk/3rdparty/libconfig/scanctx.h
+END
+strbuf.h
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/HerculesWS/Hercules/!svn/ver/30173/trunk/3rdparty/libconfig/strbuf.h
+END
+README.md
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/HerculesWS/Hercules/!svn/ver/30173/trunk/3rdparty/libconfig/README.md
+END
+libconfig-1.5
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/HerculesWS/Hercules/!svn/ver/30173/trunk/3rdparty/libconfig/libconfig-1.5
+END
+grammar.c
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/HerculesWS/Hercules/!svn/ver/33063/trunk/3rdparty/libconfig/grammar.c
+END
+scanner.c
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/HerculesWS/Hercules/!svn/ver/30173/trunk/3rdparty/libconfig/scanner.c
+END
+grammar.h
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/HerculesWS/Hercules/!svn/ver/30173/trunk/3rdparty/libconfig/grammar.h
+END
+libconfig.c
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/HerculesWS/Hercules/!svn/ver/33063/trunk/3rdparty/libconfig/libconfig.c
+END

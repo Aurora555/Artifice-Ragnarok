@@ -1,0 +1,140 @@
+//===== eAthena Script =======================================
+//= Quests: Angeling Hat, Archangeling Hat, Deviling Hat, Metaling Hat
+//============================================================
+
+prontera,146,170,5	script	Cute Hats	4_F_ANNIVERSARY,{
+
+ mes "[Quest]";
+ mes callfunc("F_Hi");
+ mes "I can make some cute hats for you.";
+ next;
+ menu "Angeling Hat",-,"Arcangeling Hat",M_2,"Deviling Hat",M_3,"Metaling Hat",M_4,"Leave",M_exit;
+
+ mes "[Quest]";
+ mes "All Stats + 5";
+ next;
+ mes "[Quest]";
+ mes "For this Cute Hat I'll need:";
+ mes "1 Hat[1]";
+ mes "500 Large Jellopy and";
+ mes "10 Million Zeny";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+
+ if ( countitem(7126) < 500 && countitem(2221) < 1 && Zeny < 10000000) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 7126,500;
+ delitem 2221,1;
+ set Zeny,Zeny-10000000;
+ getitem 20070,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+}
+
+M_2:
+ mes "[Quest]";
+ mes "All Stats + 5";
+ next;
+ mes "[Quest]";
+ mes "For this Cute Hat I'll need:";
+ mes "1 Hat[1]";
+ mes "500 Large Jellopy and";
+ mes "10 Million Zeny";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+
+ if ( countitem(7126) < 500 && countitem(2221) < 1 && Zeny < 10000000) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 7126,500;
+ delitem 2221,1;
+ set Zeny,Zeny-10000000;
+ getitem 20069,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+}
+
+M_3:
+ mes "[Quest]";
+ mes "All Stats + 5";
+ next;
+ mes "[Quest]";
+ mes "For this Cute Hat I'll need:";
+ mes "1 Hat[1]";
+ mes "500 Large Jellopy and";
+ mes "10 Million Zeny";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+
+ if ( countitem(7126) < 500 && countitem(2221) < 1 && Zeny < 10000000) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 7126,500;
+ delitem 2221,1;
+ set Zeny,Zeny-10000000;
+ getitem 20106,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+}
+
+M_4:
+ mes "[Quest]";
+ mes "All Stats + 5";
+ next;
+ mes "[Quest]";
+ mes "For this Cute Hat I'll need:";
+ mes "1 Hat[1]";
+ mes "500 Large Jellopy and";
+ mes "10 Million Zeny";
+ next;
+ mes "[Quest]";
+ mes "Do you have all the items?";
+ next;
+ menu "Yes",-,"No",M_exit;
+
+ if ( countitem(7126) < 500 && countitem(2221) < 1 && Zeny < 10000000) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ }
+ else {
+ delitem 7126,500;
+ delitem 2221,1;
+ set Zeny,Zeny-10000000;
+ getitem 20121,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+}
+
+M_exit:
+ mes "[Quest]";
+ mes callfunc("F_Bye");
+ close;
+}

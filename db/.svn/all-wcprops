@@ -1,0 +1,203 @@
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/HerculesWS/Hercules/!svn/ver/35868/trunk/db
+END
+homun_skill_tree.txt
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/HerculesWS/Hercules/!svn/ver/21319/trunk/db/homun_skill_tree.txt
+END
+produce_db.txt
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/HerculesWS/Hercules/!svn/ver/21319/trunk/db/produce_db.txt
+END
+elemental_skill_db.txt
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/HerculesWS/Hercules/!svn/ver/12074/trunk/db/elemental_skill_db.txt
+END
+mob_pouch.txt
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/HerculesWS/Hercules/!svn/ver/11003/trunk/db/mob_pouch.txt
+END
+elemental_db.txt
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/HerculesWS/Hercules/!svn/ver/11003/trunk/db/elemental_db.txt
+END
+skill_improvise_db.txt
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/HerculesWS/Hercules/!svn/ver/14530/trunk/db/skill_improvise_db.txt
+END
+guild_skill_tree.txt
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/HerculesWS/Hercules/!svn/ver/21319/trunk/db/guild_skill_tree.txt
+END
+constants.conf
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/HerculesWS/Hercules/!svn/ver/35855/trunk/db/constants.conf
+END
+cashshop_db.conf
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/HerculesWS/Hercules/!svn/ver/22437/trunk/db/cashshop_db.conf
+END
+translations.conf
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/HerculesWS/Hercules/!svn/ver/22437/trunk/db/translations.conf
+END
+mob_item_ratio.txt
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/HerculesWS/Hercules/!svn/ver/11003/trunk/db/mob_item_ratio.txt
+END
+mob_avail.txt
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/HerculesWS/Hercules/!svn/ver/13973/trunk/db/mob_avail.txt
+END
+sc_config.txt
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/HerculesWS/Hercules/!svn/ver/34771/trunk/db/sc_config.txt
+END
+skill_reproduce_db.txt
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/HerculesWS/Hercules/!svn/ver/11003/trunk/db/skill_reproduce_db.txt
+END
+item_db2.conf
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/HerculesWS/Hercules/!svn/ver/30173/trunk/db/item_db2.conf
+END
+job_db2.txt
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/HerculesWS/Hercules/!svn/ver/21319/trunk/db/job_db2.txt
+END
+mob_skill_db2.txt
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/HerculesWS/Hercules/!svn/ver/21319/trunk/db/mob_skill_db2.txt
+END
+map_index.txt
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/HerculesWS/Hercules/!svn/ver/21893/trunk/db/map_index.txt
+END
+skill_changematerial_db.txt
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/HerculesWS/Hercules/!svn/ver/21319/trunk/db/skill_changematerial_db.txt
+END
+mob_classchange.txt
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/HerculesWS/Hercules/!svn/ver/11003/trunk/db/mob_classchange.txt
+END
+mob_db2.conf
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/HerculesWS/Hercules/!svn/ver/30173/trunk/db/mob_db2.conf
+END
+abra_db.txt
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/HerculesWS/Hercules/!svn/ver/12074/trunk/db/abra_db.txt
+END
+quest_db.conf
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/HerculesWS/Hercules/!svn/ver/35838/trunk/db/quest_db.conf
+END
+roulette_db.conf
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/HerculesWS/Hercules/!svn/ver/22437/trunk/db/roulette_db.conf
+END
+pet_db2.txt
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/HerculesWS/Hercules/!svn/ver/21319/trunk/db/pet_db2.txt
+END
+magicmushroom_db.txt
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/HerculesWS/Hercules/!svn/ver/11003/trunk/db/magicmushroom_db.txt
+END
+castle_db.txt
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/HerculesWS/Hercules/!svn/ver/11934/trunk/db/castle_db.txt
+END
+mob_chat_db.txt
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/HerculesWS/Hercules/!svn/ver/11003/trunk/db/mob_chat_db.txt
+END
+create_arrow_db.txt
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/HerculesWS/Hercules/!svn/ver/11003/trunk/db/create_arrow_db.txt
+END
+mercenary_skill_db.txt
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/HerculesWS/Hercules/!svn/ver/23214/trunk/db/mercenary_skill_db.txt
+END
+mercenary_db.txt
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/HerculesWS/Hercules/!svn/ver/22437/trunk/db/mercenary_db.txt
+END
+GeoIP.dat
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/HerculesWS/Hercules/!svn/ver/14530/trunk/db/GeoIP.dat
+END
+spellbook_db.txt
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/HerculesWS/Hercules/!svn/ver/12074/trunk/db/spellbook_db.txt
+END

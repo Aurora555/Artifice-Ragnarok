@@ -1,0 +1,130 @@
+prontera,146,164,5	script	Novice vs. Zombie	ZOMBIE,{
+if ( BaseLevel != 1 || Class != 0){
+mes "[^0000FFZombie Vs. Novice^000000]";
+mes "You must be a level 1 Novice.";
+close;
+}
+if(Weight > 0) {
+mes "Lower your weight, Remove all your items.";
+close;
+}
+mes "[^0000FFZombie Vs. Novice^000000]";
+mes "You want to join the Event?";
+next;
+switch(select("Yes","No")) {
+case 1:
+npctalk ""+strcharinfo(0)+" has registered for the Zombie v.s. Novice.";
+sc_end SC_ALL;
+sc_start SC_DECREASEAGI,1200000,10;
+percentheal 100,100;
+sc_start SC_STRIPSHIELD,1200000,5;
+sc_start SC_STRIPWEAPON,1200000,5;
+sc_start SC_STRIPARMOR,1200000,5;
+sc_start SC_STRIPHELM,1200000,5;
+statusup2 bStr,-999;
+statusup2 bAgi,-999;
+statusup2 bVit,-999;
+statusup2 bInt,-999;
+statusup2 bDex,-999;
+statusup2 bLuk,-999;
+warp "quiz_01",42,369;
+end;
+case 2:
+mes "[^0000FFZombie Vs. Novice^000000]";
+mes "Come Again, if you want to join.";
+break;
+}
+close;
+ 
+OnInit:
+disablenpc "Novice vs. Zombie";
+disablenpc "Prize";
+end;
+ 
+OnClock0200:
+OnClock0600:
+OnClock1000:
+OnClock1400:
+OnClock1800:
+OnClock2200:
+announce "Event Manager: Zombie Vs. Novice Event Registration is now Open, 3 minutes",0,0x00CCFF;
+killmonsterall "quiz_01";
+sleep 5000;
+announce "Event Manager: NPC Appeared at Prontera Town' Register Now!",0,0x00CCFF;
+enablenpc "Novice vs. Zombie";
+sleep 55000;
+announce "Event Manager: Zombie Vs. Novice Registration will be closed in 2 minutes!",0,0x00CCFF;
+sleep 60000;
+announce "Event Manager: Zombie Vs. Novice Registration will be closed in 1 minute!",0,0x00CCFF;
+sleep 50000;
+mapannounce "quiz_01","Registration Closed!! in 10 seconds the Event will Start!",0,0x00CCFF;
+disablenpc "Novice vs. Zombie";
+sleep 5000;
+for( set .@a,5; .@a > 0; set .@a,.@a - 1 ){
+announce "Event Manager: Monster will spawn in ~"+.@a+"~",0,0x00CCFF;
+sleep 1000;
+}
+if(getmapusers("guild_vs5") == 1){
+mapannounce "guild_vs5","Event Manager: Event Ended 1 Participant Only..",0,0x00CCFF;
+disablenpc "Prize";
+announce "Event Manager: Event Ended 1 Participant Only",0,0x00CCFF;
+disablenpc "Novice vs. Zombie";
+sleep 1000;
+}
+for( set .@a,3; .@a > 0; set .@a,.@a - 1 ){
+monster "quiz_01",42,369,"Zombie",1015,2;
+sleep 10000;
+}
+while( getmapusers("quiz_01") > 1 ){
+mapannounce "quiz_01",getmapusers("quiz_01") +" players still alive in the Event.",0,0x00FF00;
+sleep 2000;
+}
+killmonsterall "quiz_01";
+announce "Event Manager: No Player win the Event, due to all participant die.",0,0x00FF00;
+mapannounce "quiz_01","Event Manager: You survive the zombie waves, talk to the Prize NPC to get the reward.",0,0x00FF00;
+enablenpc "Prize";
+end;
+ 
+OnPCDieEvent:
+getmapxy .@mapnvz$,.@xnvz,.@ynvz,0;
+if ( .@mapnvz$ == "quiz_01") {
+sleep2 100;
+warp "prontera",156,180;
+atcommand "@alive "+ strcharinfo(0);
+dispbottom "Sorry, but you were killed.";
+}
+sleep2 100;
+if (.@mapnvz$ == "sec_pri" && getmapusers("quiz_01") == 1 ) {
+killmonsterall "sec_pri";
+sc_start SC_BASILICA,30000,1;
+mapannounce "sec_pri","You have won, approach the R.F.Y.L. Banker NPC please.",0,0x00FF00;
+enablenpc "Prize";
+stopnpctimer;
+end;
+}
+end;
+}
+ 
+quiz_01,42,369,3	script	Prize	1_F_MARIA,{
+if(getmapusers("quiz_01") > 1){
+npctalk "Only the last Survivor can talk with me.";
+end;
+}
+announce "In ' Zombie Vs. Novice ' has won" + strcharinfo (0) + "! We congratulate "+(( Sex )? "HIM":"HER")+"!",0,0x00FF00;
+getitem 7227,2;
+warp "prontera",156,180;
+disablenpc "Prize";
+end;
+}
+ 
+// == Mapflags
+quiz_01	mapflag	gvg
+quiz_01	mapflag	nowarp
+quiz_01	mapflag	nowarpto
+quiz_01	mapflag	noteleport
+quiz_01	mapflag	nosave
+quiz_01	mapflag	nomemo
+quiz_01	mapflag	nobranch
+quiz_01	mapflag	pvp_noparty
+quiz_01	mapflag	nocommand	80
+//quiz_01	mapflag	restricted	5

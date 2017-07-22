@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/HerculesWS/Hercules/!svn/ver/35822/trunk/conf
+END
+channels.conf
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/HerculesWS/Hercules/!svn/ver/33923/trunk/conf/channels.conf
+END
+battlegrounds.conf
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/HerculesWS/Hercules/!svn/ver/21319/trunk/conf/battlegrounds.conf
+END
+groups.conf
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/HerculesWS/Hercules/!svn/ver/21319/trunk/conf/groups.conf
+END
+plugins.conf
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/HerculesWS/Hercules/!svn/ver/21319/trunk/conf/plugins.conf
+END
+atcommand.conf
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/HerculesWS/Hercules/!svn/ver/35710/trunk/conf/atcommand.conf
+END
+messages.conf
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/HerculesWS/Hercules/!svn/ver/34771/trunk/conf/messages.conf
+END
+readme.txt
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/HerculesWS/Hercules/!svn/ver/35724/trunk/conf/readme.txt
+END
+grf-files.txt
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/HerculesWS/Hercules/!svn/ver/11003/trunk/conf/grf-files.txt
+END
+network.conf
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/HerculesWS/Hercules/!svn/ver/21319/trunk/conf/network.conf
+END

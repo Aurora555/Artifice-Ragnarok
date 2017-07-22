@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/HerculesWS/Hercules/!svn/ver/35724/trunk/conf/map
+END
+battle.conf
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/HerculesWS/Hercules/!svn/ver/35724/trunk/conf/map/battle.conf
+END
+charhelp.txt
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/HerculesWS/Hercules/!svn/ver/35710/trunk/conf/map/charhelp.txt
+END
+maps.conf
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/HerculesWS/Hercules/!svn/ver/35710/trunk/conf/map/maps.conf
+END
+map-server.conf
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/HerculesWS/Hercules/!svn/ver/35710/trunk/conf/map/map-server.conf
+END
+help.txt
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/HerculesWS/Hercules/!svn/ver/35710/trunk/conf/map/help.txt
+END
+logs.conf
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/HerculesWS/Hercules/!svn/ver/35717/trunk/conf/map/logs.conf
+END
+script.conf
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/HerculesWS/Hercules/!svn/ver/35719/trunk/conf/map/script.conf
+END

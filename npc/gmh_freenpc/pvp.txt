@@ -1,0 +1,1019 @@
+//Title: Ghost's PvP System (Multi-announcer + Ladder)
+//Version: 1.3
+//Author: Ghost
+//Created: 12/27/2011
+//Released: 01/31/2012
+//Last Modified: 06/06/2013
+//Compatibility: rAthena | eAthena
+//Support: TXT & SQL
+
+/*SQL Table for Ghost's PvP System
+CREATE TABLE IF NOT EXISTS `pvp_rank` (
+  `char_id` int(11) NOT NULL,
+  `account_id` int(11) NOT NULL,
+  `char` varchar(30) NOT NULL,
+  `kill` int(11) NOT NULL,
+  `death` int(11) NOT NULL,
+  `kdr` varchar(30) NOT NULL,
+  `killingstreak` int(11) NOT NULL,
+  `multikill` int(11) NOT NULL,
+  `killingspree` int(11) NOT NULL,
+  `dominating` int(11) NOT NULL,
+  `megakill` int(11) NOT NULL,
+  `unstoppable` int(11) NOT NULL,
+  `wickedsick` int(11) NOT NULL,
+  `monsterkill` int(11) NOT NULL,
+  `godlike` int(11) NOT NULL,
+  `beyondgodlike` int(11) NOT NULL,
+  `doublekill` int(11) NOT NULL,
+  `triplekill` int(11) NOT NULL,
+  `ultrakill` int(11) NOT NULL,
+  `rampage` int(11) NOT NULL,
+  `ownage` int(11) NOT NULL,
+  `nemesiskill` int(11) NOT NULL,
+  `feedcount` int(11) NOT NULL,
+  PRIMARY KEY (`char_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1; 
+*/
+
+//rAthena Topic: http://rathena.org/board/topic/58222-ghosts-scripts/
+//Required File: 
+//	SQL Table: http://pastebin.com/dEqrkczy
+//	Wav Files: http://www.mediafire.com/?i3uutvdp00jw4r8
+//References: 
+//	http://www.wowwiki.com/Defense_of_the_Ancients:_Allstars
+//	http://honwiki.net/wiki/Kill_Streak
+//	http://honwiki.net/wiki/Multi_Kill
+//	http://honwiki.net/wiki/Patch_2.0.0#Nemesis_and_Payback
+//	http://igamepros.com/viewtopic.php?f=62&t=4342
+//Additional Note: 
+//	Multiple kill timer is set to Heroes of Newerth's 18 seconds.
+//	KDR Algorithm is originally written by me, Ghost.
+//	If you like this PvP System, say thanks at my rAthena topic.
+//Glossary:
+//	KDR: Kill Death Ratio
+//	SK: Streak Kill
+//	MK: Multi Kill
+//Credits:
+//	Thank you to the Athena community.
+//Changelog:
+//	v1.3 = Fixed .PvPMap$[0] settings [Ghost]
+//	     = Added .gmlevel at configuration [Ghost]
+//	     = Change SK Hex Color to ^00FF00 for visibility [Ghost]
+//	     = Fixed Streak Kill ended broadcast [Ghost]
+//	     = Typographical error (Ms. Pudding to Flamboyant) on Announcer Setting corrected [Ghost]
+//           = Changed Top 10 Players ranking from KDR to Kills [Ghost]
+//	v1.2 = Fixed obfuscation at PvP Statistics [Ghost]
+//	v1.1 = KDR Algorithm update for undefined calculation check [Lighta]
+//	     = Fixed obfuscation at Nemesis Kill [Lighta]
+//	v1.0 = Initial release
+//©2011-2012 Ghost
+//========================================================================================
+
+-	script	Versus	-1,{
+
+OnInit:
+	//CONFIGURATION
+	waitingroom "PvP Top 20",0;
+	set .System, 1; //Toggle PvP System (0:Disable|1:Enable)
+	set .ServerType, 1; //Are you using TXT or SQL? (0:TXT|1:SQL)
+	set .gmlevel, 10; //GM levels above or equal this level will be ignored by the system
+	//setarray .PvPMap$[0],"All"; //List all pvp maps here (Index 0:"All" to enable all maps)
+	setarray .PvPMap$[0],	"guild_vs1","pvp_y_1-1","pvp_y_1-2","pvp_y_1-3","pvp_y_1-4","pvp_y_1-5",
+				"pvp_y_2-1","pvp_y_2-2","pvp_y_2-3","pvp_y_2-4","pvp_y_2-5",
+				"pvp_y_3-1","pvp_y_3-2","pvp_y_3-3","pvp_y_3-4","pvp_y_3-5",
+				"pvp_y_4-1","pvp_y_4-2","pvp_y_4-3","pvp_y_4-4","pvp_y_4-5",
+				"pvp_y_5-1","pvp_y_5-2","pvp_y_5-3","pvp_y_5-4","pvp_y_5-5",
+				"pvp_y_6-1","pvp_y_6-2","pvp_y_6-3","pvp_y_6-4","pvp_y_6-5",
+				"pvp_y_7-1","pvp_y_7-2","pvp_y_7-3","pvp_y_7-4","pvp_y_7-5",
+				"pvp_y_8-1","pvp_y_8-2","pvp_y_8-3","pvp_y_8-4","pvp_y_8-5",
+				"guild_vs2-1";
+				
+
+	set .Gfx, 1; //Enable Cutin count graphics features? (0:Disable|1:Enable)
+	set .Dcnt,1; //Death count enabled? (0:Disable|1:Enable)
+
+	//========================================================================================
+
+	//PVP LADDER
+	set .Top, 10; //What is the length of the list?
+	set .Reset, 3; //Allow players to reset their PvP statistics? (0:Disable|1:Zeny|2:Cashpoint|3:Skull)
+	set .ZenyFee, 1000000; //How much zeny you want to charge to reset their pvp stat?
+	set .CashFee, 0; //How much cashpoint you want to charge to reset their pvp stat?
+	set .SkullFee, 1000; //How much skull you want to charge to reset their pvp stat?
+	set .AnnouncerFee, 0; //How much cashpoint per announcer? (DotA announcer is set as default)
+
+	//========================================================================================
+
+	//REWARD SETTING (Every Kill)
+	set .MaxZeny, 1000000000; //What is the max zeny of the server?
+	set .Zeny, 10000; //Earn zeny each kill? (0:Disable)
+	set .Cash, 0; //How much #CASHPOINT every kill? (0:Disable)
+	set .Skull, 1; //Collect player's skull each kill? (0:Disable|1:Enable)
+	setarray .ItemID[0], 0,0; //Get items each kill? (0:Disable)
+	setarray .Amount[0], 0,0; //How many items per kill?
+	set .Exp, 0;  //Gain Exp each kill? (0:Disable|1:Enable)
+	set .Bexp, 3;  //How much % base Exp gain each kill? 
+	set .Jexp, 3;  //How much % job Exp gain each kill?
+	set .Reqkill,0; //Qualified number of kills before getting a chance for grand prize? (0:Disable)
+	set .Gprize, 0; //Grand Prize Percent? (0:Disable|1:Enable)
+
+	//========================================================================================
+
+	//PENALTY SETTING
+	set .Feed,10; //How many kills before feeding is called? (10:Recommended)
+	set .Penalty,1; //What is the penalty for the feedee? (0:Disable|1:Kill Rollback|2:Server Kick|3:Server Block|4:Server Ban|5:Server Prison)
+	set .Kick,2; //Who to punish? (0:Feedee|1:Feeder|2:Both)
+	set .Rollback,10; //How many times should the kill count rollback when feeding is called? (10:Recommended)
+
+	//========================================================================================
+
+	//ANNOUNCER SETTING
+	set .Broadcast, 1; //Where do you want to broadcast? (0:bc_all|1:bc_map)
+	set .Streak, 1; //Show number of killing streak in broadcast? e.g. Ghost is Beyond Godlike(8)
+	set .Multiple, 1; //Show number of multiple kill in broadcast? e.g. Makizushi just got an Ownage(5)
+	set .Nemesis, 1; //Show number of nemesis in broadcast? e.g. Epoque is owning Jguy(9)
+	set .Feeder, 1; //Show number of feed in broadcast? e.g. Cookies is feeding `KeiKun(10)
+	set .RandomKillWord, 1; //Randomize the kill words? e.g. Arcenciel "Kill Word" jTynne (0:Disable|Default:"pwned")
+	setarray .KillWord$[0], "pawned", "smashed", "disintegrated", "neutralized","took","cut","obliterated","thrashed","pulverized"; //Enable above setting for this to work
+
+	//Broadcast Color | See HexTable: http://johncfish.com/bggallery/otherchart/hextable.gif
+	set .KColor$, "0xFFFFCC"; //Kill Broadcast Color | e.g. Jguy pwned Mercurial 
+	set .KSColor$, "0xFFFFCC"; //Killing Streak Broadcast Color | e.g. jTynne is on a Killing Spree
+	set .MKColor$, "0x33FF00"; //Multiple Kill Broadcast Color | e.g. Mercurial just got a Double Kill
+	set .ESColor$, "0xFF0000"; //End Streak Broadcast Color | e.g. BrianL just ended Jguy's Killing Spree
+	set .NMColor$, "0x0099FF"; //Nemesis Broadcast Color | e.g. Xazax is owning Cookies
+	set .PBColor$, "0xFF0000"; //Payback Broadcast Color | e.g. Makizushi just have a payback againts lilcooldude69
+	set .FDColor$, "0xFF00CC"; //Feeder Broadcast Color | e.g. Cookies is feeding Z3R0
+
+	//--Warning: Critical Setting | Killing Streaks and Multiple Kills Announcer
+	setarray .KSDotA$[0], "is on a Killing Spree", "is Dominating", "has a Mega-Kill", "is Unstoppable", "is Wicked Sick", "has a M-m-m-m....Monster Kill", "is Godlike", "is Beyond Godlike";
+	setarray .MKDotA$[0], "just got a Double Kill", "just got a Triple Kill", "just got an Ultra Kill", "is on a Rampage", "is Owning his/her enemies";
+	setarray .ESDotA$[0], "Killing Spree", "Dominating", "Mega-Kill", "Unstoppable", "Wicked Sick", "Monster Kill", "Godlike", "Beyond Godlike";
+	setarray .EMDotA$[0], "Double Kill", "Triple Kill", "Ultra Kill", "Rampage", "Ownage";
+
+	setarray .KSHoN$[0], "is a Serial Killer", "is an Ultimate Warrior", "is Legendary", "is on an Onslaught!", "is Savage Sick", "is Dominating", "has a Bloodbath", "is Immortal"; //Took out #9. Champion of Newerth
+	setarray .MKHoN$[0], "just got a Double Tap", "just got a Hat Trick", "just got an Quad Kill", "annihilated his/her enemies", "just got a Genocide";
+	setarray .ESHoN$[0], "Serial Killer", "Ultimate Warrior", "Legendary", "Onslaught", "Savage Sick", "Dominating", "Bloodbath", "Immortal"; //Took out #9. Champion of Newerth
+	setarray .EMHoN$[0], "Double Tap", "Hat Trick", "Quad Kill", "Annihilation", "Genocide";
+
+	setarray .KSFLAM$[0],"is Homicidal","is Big Bear","is Diva","is Macho","is Savage Ohh","is on Domination","is Homewrecker","is Superstar","is Scary";
+	setarray .MKFLAM$[0], "is Fabulous","is on a Three Way","is on a Unicorn Stampede","is a Rainbow Warrior","Yey","is like O-M-G";
+	setarray .ESFLAM$[0],"Homicidal","Big Bear","Diva","Macho","Savage Ohh","Domination","Homewrecker","Superstar","Scary";
+	setarray .EMFLAM$[0], "Fabulous","Three Way","Unicorn Stampede","Rainbow Warrior","Yey","O-M-G";
+
+	setarray .KSENG$[0],"is on a Killing Spree", "is Dominating", "has a Mega-Kill", "is Unstoppable", "is Wicked Sick", "has a M-m-m-m....Monster Kill", "is Godlike", "is Beyond Godlike";
+	setarray .MKENG$[0], "is Splendid","is Absolutely Spiffing","is Marvelous","is Conquering The Game","is on Royal Thrashing","just got a Genocide";
+	setarray .ESENG$[0], "Killing Spree", "Dominating", "Mega-Kill", "Unstoppable", "Wicked Sick", "Monster Kill", "Godlike", "Beyond Godlike";
+	setarray .EMENG$[0], "Splendid","Absolutely Spiffing","Marvelous","Conquering The Game","Royal Thrashing","Genocide";
+
+	setarray .KSBALL$[0],"doesn't taking it Seriously","is on a Rush","has a Mega-Kill","is Unstoppable","is Bonafied Badass","has a M-m-m-m....Monster Kill","is Damn Good","is Unbelievable","is Beyond Godlike";
+	setarray .MKBALL$[0], "is Making it too Easy","isn't giving any Chance","is Ready for another kill","annihilated his/her enemies","just got a Genocide","made a Huge Mess";
+	setarray .ESBALL$[0], "Killing Spree", "Dominating", "Mega-Kill", "Unstoppable", "Bonafied Badass", "Monster Kill", "Damn Good", "Unbelievable";
+	setarray .EMBALL$[0], "Too Easy","No Chance","Ready for another kill","Annihilation","Genocide","Huge Mess";
+
+	setarray .KSBRKY$[0],"is a Serial Killer", "is an Ultimate Warrior", "is Legendary", "is on an Onslaught!", "is Savage Sick", "is Dominating", "has a Bloodbath", "is Immortal"; //Took out #9. Champion of Newearth
+	setarray .MKBRKY$[0],"just got a Double Tap", "just got a Hat Trick", "just got an Quad Kill", "annihilated his/her enemies", "just got a Genocide";
+	setarray .ESBRKY$[0], "Serial Killer", "Ultimate Warrior", "Legendary", "Onslaught", "Savage Sick", "Dominating", "Bloodbath", "Immortal"; //Took out #9. Champion of Newearth
+	setarray .EMBRKY$[0], "Double Tap", "Hat Trick", "Quad Kill", "Annihilation", "Genocide";
+
+	setarray .KSSDCT$[0],"is on a Hot Streak", "is an Ultimate Warrior", "is Too Hot", "is on an Onslaught!", "is Savage Sick", "is Dominating", "is on The Climax", "is Immortal"; //Took out #9. Champion of Newearth
+	setarray .MKSDCT$[0],"just got a Double Tap", "just got a Triple Kill", "just got an Quad Kill", "annihilated his/her enemies", "just got a Genocide","made a Huge Mess";
+	setarray .ESSDCT$[0], "Serial Killer", "Ultimate Warrior", "Legendary", "Onslaught", "Savage Sick", "Dominating", "Bloodbath", "Immortal";
+	setarray .EMSDCT$[0], "Double Tap", "Hat Trick", "Quad Kill", "Annihilation", "Genocide";
+
+	setarray .KSDUKE$[0],"is a Serial Killer", "is an Ultimate Warrior", "is Legendary", "is on an Onslaught!", "is Savage Sick", "is Dominating", "has a Bloodbath", "is Immortal"; //Took out #9. Champion of Newearth
+	setarray .MKDUKE$[0],"just got a Double Tap", "just got a Hat Trick", "just got an Quad Kill", "annihilated his/her enemies", "just got a Genocide";
+	setarray .ESDUKE$[0], "Serial Killer", "Ultimate Warrior", "Legendary", "Onslaught", "Savage Sick", "Dominating", "Bloodbath", "Immortal";
+	setarray .EMDUKE$[0], "Double Tap", "Hat Trick", "Quad Kill", "Annihilation", "Genocide";
+
+	setarray .KSVRZO$[0], "is on a Killing Spree", "is a Destoyer", "is on High 5", "is on Touch Down", "is a Killing Machine", "has a M-m-m-m....Monster Kill", "is Godlike", "is Beyond Godlike";
+	setarray .MKVRZO$[0], "just got a Double Kill", "just got a Triple Kill", "just got an Ultra Kill", "is on a Rampage", "is Owning his/her enemies";
+	setarray .ESVRZO$[0], "Killing Spree", "Destoyer", "High 5", "Touch Down", "Killing Machine", "Monster Kill", "Godlike", "Beyond Godlike";
+	setarray .EMVRZO$[0], "Double Kill", "Triple Kill", "Ultra Kill", "Rampage", "Ownage";
+
+	setarray .KSCCA$[0], "is Sweet", "is Tasty", "is Delicious", "is Divine", "is on Sugar Crush", "is on Sugar Crush", "is on Sugar Crush", "is on Sugar Crush";
+	setarray .MKCCA$[0], "is Sweet", "is Tasty", "is Delicious", "is Divine", "is on Sugar Crush";
+	setarray .ESCCA$[0], "Sweetness", "Tastiness", "Delicious", "Divine", "Sugar Crush", "Sugar Crush", "Sugar Crush", "Sugar Crush";
+	setarray .EMCCA$[0], "Sweetness", "Tastiness", "Delicious", "Divine", "Sugar Crush";
+
+	setarray .KSPMP$[0], "is a Serial Killer", "is an Ultimate Warrior", "is Legendary", "is on an Onslaught!", "is Savage Sick", "is Dominating", "has a Bloodbath", "is Immortal"; //Took out #9. Champion of Newearth
+	setarray .MKPMP$[0], "just got a Double Tap", "just got a Hat Trick", "just got an Quad Kill", "annihilated his/her enemies", "just got a Genocide";
+	setarray .ESPMP$[0], "Serial Killer", "Ultimate Warrior", "Legendary", "Onslaught", "Savage Sick", "Dominating", "Bloodbath", "Immortal"; //Took out #9. Champion of Newearth
+	setarray .EMPMP$[0], "Double Tap", "Hat Trick", "Quad Kill", "Annihilation", "Genocide";
+
+	setarray .KSSAM$[0], "is a Serial Killer", "is an Ultimate Warrior", "is Legendary", "is on an Onslaught!", "is Savage Sick", "is Dominating", "has a Bloodbath", "is Immortal"; //Took out #9. Champion of Newearth
+	setarray .MKSAM$[0], "just got a Double Tap", "just got a Hat Trick", "just got an Quad Kill", "annihilated his/her enemies", "just got a Genocide";
+	setarray .ESSAM$[0], "Serial Killer", "Ultimate Warrior", "Legendary", "Onslaught", "Savage Sick", "Dominating", "Bloodbath", "Immortal"; //Took out #9. Champion of Newearth
+	setarray .EMSAM$[0], "Double Tap", "Hat Trick", "Quad Kill", "Annihilation", "Genocide";
+
+	setarray .KSSPT$[0], "is a Serial Killer", "is an Ultimate Warrior", "is Legendary", "is on an Onslaught!", "is Savage Sick", "is Dominating", "has a Bloodbath", "is Immortal"; //Took out #9. Champion of Newearth
+	setarray .MKSPT$[0], "just got a Double Tap", "just got a Hat Trick", "just got an Quad Kill", "annihilated his/her enemies", "just got a Genocide";
+	setarray .ESSPT$[0], "Serial Killer", "Ultimate Warrior", "Legendary", "Onslaught", "Savage Sick", "Dominating", "Bloodbath", "Immortal"; //Took out #9. Champion of Newearth
+	setarray .EMSPT$[0], "Double Tap", "Hat Trick", "Quad Kill", "Annihilation", "Genocide";
+
+	//--Warning: Fail Safe | Do Not Touch
+	if(.System > 1){ set .System, 1; }
+	if(.System < 0){ set .System, 0; }
+	if(.ServerType > 1){ set .ServerType, 1; }
+	if(.ServerType < 0){ set .ServerType, 0; }
+	if(.gmlevel > 99){ set .gmlevel, 99; }
+	if(.gmlevel < 0){ set .gmlevel, 0; }
+	if((.PvPMap$[0] == "all")||(.PvPMap$[0] == "ALL")||(.PvPMap$[0] == "All")||(.PvPMap$[0] == "aLl")||(.PvPMap$[0] == "alL") || (.PvPMap$[0] == "ALl") || (.PvPMap$[0] == "aLL")|| (.PvPMap$[0] == "AlL")){ setarray .PvPMap$[0], "All"; }
+	if(.Ladder > 1){ set .Ladder, 1; }
+	if(.Ladder < 0){ set .Ladder, 0; }
+	if(.Top < 0){ set .Top, 0; }
+	if(.Reset > 3){ set .Reset, 0; }
+	if(.Reset < 0){ set .Reset, 0; }
+	if((.Reset == 1)&&(.ZenyFee <= 0)){ set .Reset, 0; }
+	if((.Reset == 1)&&(.ZenyFee >= .MaxZeny)){ set .Reset, 0; }
+	if((.Reset == 2)&&(.CashFee <= 0)){ set .Reset, 0; }
+	if((.Reset == 3)&&(.SkullFee <= 0)){ set .Reset, 0; }
+	if(.Zeny > .MaxZeny){ set .Zeny, 0; }
+	if(.Zeny < 0){ set .Zeny, 0; }
+	if(.Cash < 0){ set .Cash, 0; }
+	if(.Broadcast > 1){ set .Broadcast, 1; }
+	if(.Broadcast < 0){ set .Broadcast, 0; }
+	if(.Feed < 1){ set .Feed, 0; }
+	if(.Penalty > 5){ set .Penalty, 5; }
+	if(.Penalty < 1){ set .Penalty, 0; }
+	if(.Rollback < 1){ set .Rollback, 0; }
+	if(.Streak > 1){ set .Streak, 1; }
+	if(.Streak < 1){ set .Streak, 0; }
+	if(.Multiple > 1){ set .Multiple, 1; }
+	if(.Multiple < 1){ set .Multiple, 0; }
+	if(.Nemesis > 1){ set .Nemesis, 1; }
+	if(.Nemesis < 0){ set .Nemesis, 0; }
+	if(.Feeder > 1){ set .Feeder, 1; }
+	if(.Feeder < 1){ set .Feeder, 0; }
+	if(.RandomKillWord > 1){ set .RandomKillWord, 1; }
+	if(.RandomKillWord < 0){ set .RandomKillWord, 0; }
+	end;
+
+OnPCKillEvent:
+	if(.System==1) {
+		for(set .@i, 0; .@i <getarraysize(.PvPMap$); set .@i, .@i + 1)
+		if((strcharinfo(3) == .PvPMap$[.@i]) | (.PvPMap$[0] =="All")) {
+			set Kill, Kill + 1; 
+			if(.Gfx == 1){
+				specialeffect2 EF_SPELLBREAKER,AREA,rid2name(killedrid);
+				specialeffect2 EF_WARP,AREA,rid2name(killedrid);
+			}
+			if((@nm == .Feed) && (.Penalty)){
+				callsub OnClearData;
+					switch(.Penalty){
+					case 0: break;
+					case 1: callsub OnRollback; break;
+					case 2: 
+						if(.Kick == 0){ atcommand "@kick "+strcharinfo(0); announce strcharinfo(0)+" has been kicked out from the server!!!", ((.Broadcast)?bc_all:bc_map), .PBColor$; }
+						if(.Kick == 1){ atcommand "@kick "+rid2name(killedrid); announce rid2name(killedrid)+" has been kicked out from the server!!!", ((.Broadcast)?bc_all:bc_map), .PBColor$; }
+						if(.Kick == 2){ atcommand "@kick "+strcharinfo(0); atcommand "@kick "+rid2name(killedrid); announce strcharinfo(0)+" has been kicked out from the server!!!", ((.Broadcast)?bc_all:bc_map), .PBColor$;
+								announce rid2name(killedrid)+" has been kicked out from the server!!!", ((.Broadcast)?bc_all:bc_map), .PBColor$; soundeffectall ""+#Announcer+"_Ragequit.wav", 0,strcharinfo(3); }
+								callsub OnRollback;
+						break;
+					case 3: 
+						if(.Kick == 0){ atcommand "@block "+strcharinfo(0); announce strcharinfo(0)+" has been blocked from the server!!!", ((.Broadcast)?bc_all:bc_map), .PBColor$; }
+						if(.Kick == 1){ atcommand "@block "+rid2name(killedrid); announce rid2name(killedrid)+" has been blocked from the server!!!", ((.Broadcast)?bc_all:bc_map), .PBColor$; }
+						if(.Kick == 2){ atcommand "@block "+strcharinfo(0); atcommand "@block "+rid2name(killedrid); announce strcharinfo(0)+" has been blocked from the server!!!", ((.Broadcast)?bc_all:bc_map), .PBColor$;
+								announce rid2name(killedrid)+" has been blocked from the server!!!", ((.Broadcast)?bc_all:bc_map), .PBColor$; soundeffectall ""+#Announcer+"_Ragequit.wav", 0,strcharinfo(3); }
+								callsub OnRollback;
+						break;
+					case 4: 
+						if(.Kick == 0){ atcommand "@ban 1yr "+strcharinfo(0); announce strcharinfo(0)+" has been banned from the server!!! (PVP Feeding)", ((.Broadcast)?bc_all:bc_map), .PBColor$; }
+						if(.Kick == 1){ atcommand "@ban 1yr "+rid2name(killedrid); announce rid2name(killedrid)+" has been banned from the server!!!", ((.Broadcast)?bc_all:bc_map), .PBColor$; }
+						if(.Kick == 2){ atcommand "@ban 1yr "+strcharinfo(0); atcommand "@ban 1yr "+rid2name(killedrid); announce strcharinfo(0)+" has been banned from the server!!! (PVP Feeding)", ((.Broadcast)?bc_all:bc_map), .PBColor$;
+								announce rid2name(killedrid)+" has been banned from the server!!! (PVP Feeding)", ((.Broadcast)?bc_all:bc_map), .PBColor$; soundeffectall ""+#Announcer+"_Ragequit.wav", 0,strcharinfo(3); } 
+								callsub OnRollback;
+						break;
+					case 5: 
+						if(.Kick == 0){ atcommand "#warp "+strcharinfo(0)+" sec_pri"; announce strcharinfo(0)+" has been prisoned!!!", ((.Broadcast)?bc_all:bc_map), .PBColor$; }
+						if(.Kick == 1){ atcommand "#warp "+rid2name(killedrid)+" sec_pri"; announce rid2name(killedrid)+" has been prisoned!!!", ((.Broadcast)?bc_all:bc_map), .PBColor$; }
+						if(.Kick == 2){ 
+						atcommand "@warp sec_pri";
+						atcommand "@recall "+(rid2name(killedrid));  
+						announce strcharinfo(0)+" has been prisoned!!!", ((.Broadcast)?bc_all:bc_map), .PBColor$;
+						announce rid2name(killedrid)+" has been prisoned!!!", ((.Broadcast)?bc_all:bc_map), .PBColor$; 
+						}
+						callsub OnRollback;
+						break;
+					default: break;
+					}
+				}
+
+			if(@nm < .Feed && rid2name(killedrid) != strcharinfo(0)){
+				if(strcharinfo(3) == "guild_vs1") {	
+					if(.Zeny && ((Zeny + .Zeny) < .MaxZeny)){ set Zeny, Zeny + .Zeny; }
+					if(.Cash){ dispbottom "[Point System] +1 Kill Point"; set #CASHPOINT, #CASHPOINT + .Cash; }
+					if(.Skull){ getnameditem 7420, rid2name(killedrid); }
+					if(.Exp){ getexp ((NextBaseExp)/(100/.Bexp)),((NextJobExp)/(100/.Jexp)); }
+					for(set .@i, 0; .@i < getarraysize(.ItemID); set .@i, .@i + 1){ if(.ItemID){ getitem .ItemID[.@i], .Amount[.@i]; }}
+					if(.Gprize) {
+						if( rand(100) <= .Gprize && Kill >= .Reqkill ){ 
+							setarray $@gprize[0],25500,25501;                   
+							specialeffect2 248;
+							getitem ($@gprize[rand(0,getarraysize($@gprize)-1)]),1;
+							announce strcharinfo(0)+" received a grand prize!!!", ((.Broadcast)?bc_all:bc_map), .KSColor$; 
+							soundeffectall ""+#Announcer+"_Victory.wav", 0,strcharinfo(3);
+						}
+					}                      
+				}
+			}
+			if(.RandomKillWord && rid2name(killedrid) != strcharinfo(0)){ announce strcharinfo(0)+" "+.KillWord$[rand(0, getarraysize(.KillWord$) - 1)]+" "+rid2name(killedrid)+"'s head", ((.Broadcast)?bc_all:bc_map), .KColor$; } 
+			else if( rid2name(killedrid) == strcharinfo(0) && .RandomKillWord){ announce strcharinfo(0)+" "+.KillWord$[rand(0, getarraysize(.KillWord$) - 1)]+" "+((Sex)?"his":"her")+" own head", ((.Broadcast)?bc_all:bc_map), .KColor$; } 
+			else if( rid2name(killedrid) == strcharinfo(0)) { announce strcharinfo(0)+" pwned "+((Sex)?"his":"her")+" own head", ((.Broadcast)?bc_all:bc_map), .KColor$; } 
+			else { announce strcharinfo(0)+" pwned "+rid2name(killedrid)+"'s head", ((.Broadcast)?bc_all:bc_map), .KColor$; } 
+
+			if(@ks < 10){ 
+				set @ks, @ks + 1; 
+			}   
+			if(@mk < 7){
+				set @mk, @mk + 1; 
+			} 
+			if(!NemesisKilled){ 
+				set NemesisKilled, killedrid; 
+			}    
+			if(NemesisKilled == killedrid){
+				set @nm, @nm + 1; 
+			}
+			else { 
+				set NemesisKilled, killedrid;   
+				set @nm,1;
+			}
+			deltimer "Versus::OnMKReset"; 
+			addtimer 18000, "Versus::OnMKReset"; 
+			callsub OnRecordStreak; 
+			callsub OnAnnounce; 
+			callsub OnDeath;
+			end;
+		}
+	}
+	else
+	{
+	end;
+	}
+
+
+OnPCDieEvent:
+	if(.System==1) {
+		if ( strcharinfo(3) == "guild_vs2" ) {
+			dispbottom "You will respawn in 3 seconds";
+			sleep2 3000;
+			warp "guild_vs2", 0,0;
+			percentheal 100,100;
+			skilleffect AL_BLESSING,0;
+			sc_start SC_BLESSING,240000,10;
+			if(Hp>15) {
+				skilleffect AL_INCAGI,0;
+				sc_start SC_INC_AGI,240000,10;
+				heal -15,0;
+			}
+			atcommand "@speed 50";
+		}
+		for(set .@i, 0; .@i <getarraysize(.PvPMap$); set .@i, .@i + 1)
+		if((strcharinfo(3) == .PvPMap$[.@i]) | (.PvPMap$[0] =="All")) {
+			if ( killerrid > 3000000 ){
+				end; 
+			}
+			@killer_name$ = ( killerrid < 3000000 ? rid2name( killerrid ) : "" );  
+			if (.Dcnt) {
+				set Death, Death + 1;
+			}
+			//set @pb$,rid2name(killerrid);
+			
+			if(!NemesisKiller){
+				set NemesisKiller, killerrid; 
+			}    
+			if(NemesisKiller == killerrid){ 
+				set @nmk, @nmk + 1; 
+			}
+			else { 
+				set NemesisKiller, killerrid;   
+				set @nmk,1;
+			}
+			if(@ks > 2  && rid2name(killedrid) != strcharinfo(0)){
+				if(#Announcer == 0){ announce rid2name(killerrid)+" just ended "+strcharinfo(0)+"'s "+.ESDotA$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }  
+				if(#Announcer == 1){ announce rid2name(killerrid)+" just ended "+strcharinfo(0)+"'s "+.ESHoN$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 2){ announce rid2name(killerrid)+" just ended "+strcharinfo(0)+"'s "+.ESHoN$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 3){ announce rid2name(killerrid)+" just ended "+strcharinfo(0)+"'s "+.ESFLAM$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 4){ announce rid2name(killerrid)+" just ended "+strcharinfo(0)+"'s "+.ESENG$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 5){ announce rid2name(killerrid)+" just ended "+strcharinfo(0)+"'s "+.ESBALL$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 6){ announce rid2name(killerrid)+" just ended "+strcharinfo(0)+"'s "+.ESBRKY$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 7){ announce rid2name(killerrid)+" just ended "+strcharinfo(0)+"'s "+.ESSDCT$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 8){ announce rid2name(killerrid)+" just ended "+strcharinfo(0)+"'s "+.ESDUKE$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 9){ announce rid2name(killerrid)+" just ended "+strcharinfo(0)+"'s "+.ESVRZO$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 10){ announce rid2name(killerrid)+" just ended "+strcharinfo(0)+"'s "+.ESCCA$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 11){ announce rid2name(killerrid)+" just ended "+strcharinfo(0)+"'s "+.ESPMP$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 12){ announce rid2name(killerrid)+" just ended "+strcharinfo(0)+"'s "+.ESSAM$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 13){ announce rid2name(killerrid)+" just ended "+strcharinfo(0)+"'s "+.ESSPT$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+			}
+			if(@ks > 2  && rid2name(killedrid) == strcharinfo(0)){
+				if(#Announcer == 0){ announce strcharinfo(0)+" just ended "+((Sex)?"his":"her")+" "+.ESDotA$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 1){ announce strcharinfo(0)+" just ended "+((Sex)?"his":"her")+" "+.ESHoN$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 2){ announce strcharinfo(0)+" just ended "+((Sex)?"his":"her")+" "+.ESHoN$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 3){ announce strcharinfo(0)+" just ended "+((Sex)?"his":"her")+" "+.ESFLAM$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 4){ announce strcharinfo(0)+" just ended "+((Sex)?"his":"her")+" "+.ESENG$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 5){ announce strcharinfo(0)+" just ended "+((Sex)?"his":"her")+" "+.ESBALL$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 6){ announce strcharinfo(0)+" just ended "+((Sex)?"his":"her")+" "+.ESBRKY$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 7){ announce strcharinfo(0)+" just ended "+((Sex)?"his":"her")+" "+.ESSDCT$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 8){ announce strcharinfo(0)+" just ended "+((Sex)?"his":"her")+" "+.ESDUKE$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 9){ announce strcharinfo(0)+" just ended "+((Sex)?"his":"her")+" "+.ESVRZO$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 10){ announce strcharinfo(0)+" just ended "+((Sex)?"his":"her")+" "+.ESCCA$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 11){ announce strcharinfo(0)+" just ended "+((Sex)?"his":"her")+" "+.ESPMP$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 12){ announce strcharinfo(0)+" just ended "+((Sex)?"his":"her")+" "+.ESSAM$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 13){ announce strcharinfo(0)+" just ended "+((Sex)?"his":"her")+" "+.ESSPT$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+			}
+			if(@mk >1 && rid2name(killedrid) != strcharinfo(0)){  
+				if(#Announcer == 0){ announce rid2name(killerrid)+" just ended "+strcharinfo(0)+"'s "+.EMDotA$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 1){ announce rid2name(killerrid)+" just ended "+strcharinfo(0)+"'s "+.EMHoN$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 2){ announce rid2name(killerrid)+" just ended "+strcharinfo(0)+"'s "+.EMHoN$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 3){ announce rid2name(killerrid)+" just ended "+strcharinfo(0)+"'s "+.EMFLAM$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 4){ announce rid2name(killerrid)+" just ended "+strcharinfo(0)+"'s "+.EMENG$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 5){ announce rid2name(killerrid)+" just ended "+strcharinfo(0)+"'s "+.EMBALL$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 6){ announce rid2name(killerrid)+" just ended "+strcharinfo(0)+"'s "+.EMBRKY$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 7){ announce rid2name(killerrid)+" just ended "+strcharinfo(0)+"'s "+.EMSDCT$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 8){ announce rid2name(killerrid)+" just ended "+strcharinfo(0)+"'s "+.EMDUKE$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 9){ announce rid2name(killerrid)+" just ended "+strcharinfo(0)+"'s "+.EMVRZO$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 10){ announce rid2name(killerrid)+" just ended "+strcharinfo(0)+"'s "+.EMCCA$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 11){ announce rid2name(killerrid)+" just ended "+strcharinfo(0)+"'s "+.EMPMP$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 12){ announce rid2name(killerrid)+" just ended "+strcharinfo(0)+"'s "+.EMSAM$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 13){ announce rid2name(killerrid)+" just ended "+strcharinfo(0)+"'s "+.EMSPT$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+			}
+			if(@mk >1 && rid2name(killedrid) == strcharinfo(0)){  
+				if(#Announcer == 0){ announce strcharinfo(0)+" just ended "+((Sex)?"his":"her")+" "+.EMDotA$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 1){ announce strcharinfo(0)+" just ended "+((Sex)?"his":"her")+" "+.EMHoN$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 2){ announce strcharinfo(0)+" just ended "+((Sex)?"his":"her")+" "+.EMHoN$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 3){ announce strcharinfo(0)+" just ended "+((Sex)?"his":"her")+" "+.EMFLAM$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 4){ announce strcharinfo(0)+" just ended "+((Sex)?"his":"her")+" "+.EMENG$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 5){ announce strcharinfo(0)+" just ended "+((Sex)?"his":"her")+" "+.EMBALL$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 6){ announce strcharinfo(0)+" just ended "+((Sex)?"his":"her")+" "+.EMBRKY$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 7){ announce strcharinfo(0)+" just ended "+((Sex)?"his":"her")+" "+.EMSDCT$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 8){ announce strcharinfo(0)+" just ended "+((Sex)?"his":"her")+" "+.EMDUKE$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 9){ announce strcharinfo(0)+" just ended "+((Sex)?"his":"her")+" "+.EMVRZO$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 10){ announce strcharinfo(0)+" just ended "+((Sex)?"his":"her")+" "+.EMCCA$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 11){ announce strcharinfo(0)+" just ended "+((Sex)?"his":"her")+" "+.EMPMP$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 12){ announce strcharinfo(0)+" just ended "+((Sex)?"his":"her")+" "+.EMSAM$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+				if(#Announcer == 13){ announce strcharinfo(0)+" just ended "+((Sex)?"his":"her")+" "+.EMSPT$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .ESColor$; if(.Gfx){ cutin "streakbreak.bmp",0; sleep2 1000; cutin "",255; } else { } }
+			}
+		}
+	}
+	else {
+		end;
+	}
+
+OnPCLogoutEvent:
+	if(.System){
+		if(strcharinfo(3) == "guild_vs2") {
+			sc_end SC_ALL;
+		}	
+		if((.ServerType) && (Kill)){ query_sql("REPLACE INTO `pvp_rank` (`char_id`, `account_id`, `char`, `kill`, `death`, `kdr`, `killingstreak`, `multikill`,  `nemesiskill`, `feedcount`,`killingspree`, `dominating`, `megakill`, `unstoppable`, `wickedsick`, `monsterkill`, `godlike`, `beyondgodlike`, `doublekill`, `triplekill`, `ultrakill`, `rampage`, `ownage`) VALUES ("+getcharid(0)+","+getcharid(3)+", '"+rid2name(getcharid(3))+"', "+Kill+", "+Death+", '"+callfunc("KDR_Calc", Kill, Death)+"', "+KillingStreak+", "+MultiKill+",  "+NemesisKill+", "+FeedCount+", "+KillingSpree+", "+Dominating+", "+MegaKill+", "+Unstoppable+", "+WickedSick+", "+MonsterKill+", "+Godlike+", "+BeyondGodlike+", "+DoubleKill+", "+TripleKill+", "+UltraKill+", "+Rampage+", "+Ownage+")"); }
+		if(.PvPMap$[0] != "All"){
+			for(set .@i, 0; .@i < getarraysize(.PvPMap$); set .@i, .@i + 1){
+				if(strcharinfo(3) != .PvPMap$[.@i]){ end; }
+			}
+		}
+		callsub OnClearData; 
+		deltimer "Versus::OnMKReset";
+	} 
+	end;
+
+OnRecordStreak:
+	if(@ks > 2){
+		set KillingStreak, KillingStreak + 1;
+		switch(@ks){
+			case 0:	case 1:	case 2: break; 
+			case 3: set KillingSpree, KillingSpree + 1; break; 
+			case 4: set Dominating, Dominating + 1; break;
+			case 5: set MegaKill, MegaKill + 1; break; 
+			case 6: set Unstoppable, Unstoppable + 1; break; 
+			case 7: set WickedSick, WickedSick + 1; break;
+			case 8: set MonsterKill, MonsterKill + 1; break; 
+			case 9: set Godlike, Godlike + 1; break; 
+			case 10: set BeyondGodlike, BeyondGodlike + 1; break;
+			default: break;
+		}
+	}
+	if(@mk > 1){
+		set MultiKill, MultiKill + 1;
+		switch(@mk){
+			case 0:	case 1: break; 
+			case 2: set DoubleKill, DoubleKill + 1; break; 
+			case 3: set TripleKill, TripleKill + 1; break;
+			case 4: set UltraKill, UltraKill + 1; break;
+			case 5: set Rampage, Rampage + 1; break; 
+			case 6: set Ownage, Ownage + 1; break;
+			default: break;
+		}
+	}
+	if((@nm > 2) && (@nm < .Feed)){
+		set NemesisKill, NemesisKill + 1; 
+	}
+	if(@nm >= .Feed){
+		set FeedCount, FeedCount + 1; 
+		return;
+	}
+	
+	
+OnAnnounce:
+	if(@ks < 2 && @ks > 0  && rid2name(killedrid) != strcharinfo(0)){
+		if(#Announcer == 0){ announce strcharinfo(0)+" drew first blood!", ((.Broadcast)?bc_all:bc_map), .KSColor$; if(.Gfx){ cutin "ks1.bmp",0; } else { } }
+		if(#Announcer == 1){ announce strcharinfo(0)+" got bloodlust!", ((.Broadcast)?bc_all:bc_map), .KSColor$; if(.Gfx){ cutin "ks1.bmp",0; } else { } }
+		if(#Announcer == 2){ announce strcharinfo(0)+" got bloodlust!", ((.Broadcast)?bc_all:bc_map), .KSColor$; if(.Gfx){ cutin "ks1.bmp",0; } else { } }
+		if(#Announcer == 3){ announce strcharinfo(0)+" is a cherry popper!", ((.Broadcast)?bc_all:bc_map), .KSColor$; if(.Gfx){ cutin "ks1.bmp",0; } else { } }
+		if(#Announcer == 4){ announce strcharinfo(0)+" is dedicating "+((Sex)?"his":"her")+" first kill for the queen and "+((Sex)?"his":"her")+" country!", ((.Broadcast)?bc_all:bc_map), .KSColor$; if(.Gfx){ cutin "ks1.bmp",0; } else { } }
+		if(#Announcer == 5){ announce strcharinfo(0)+" just got "+((Sex)?"his":"her")+" first victim!", ((.Broadcast)?bc_all:bc_map), .KSColor$; if(.Gfx){ cutin "ks1.bmp",0; } else { } }
+		if(#Announcer == 6){ announce strcharinfo(0)+" is showing up!", ((.Broadcast)?bc_all:bc_map), .KSColor$; if(.Gfx){ cutin "ks1.bmp",0; } else { } }
+		if(#Announcer == 7){ announce strcharinfo(0)+" just had "+((Sex)?"his":"her")+" first $%&#!", ((.Broadcast)?bc_all:bc_map), .KSColor$; if(.Gfx){ cutin "ks1.bmp",0; } else { } }
+		if(#Announcer == 8){ announce strcharinfo(0)+" is starting to shed some blood!", ((.Broadcast)?bc_all:bc_map), .KSColor$; if(.Gfx){ cutin "ks1.bmp",0; } else { } }
+		if(#Announcer == 9){ announce strcharinfo(0)+" got bloodlust!", ((.Broadcast)?bc_all:bc_map), .KSColor$; if(.Gfx){ cutin "ks1.bmp",0; } else { } }
+		if(#Announcer == 10){ announce strcharinfo(0)+" is Sweet!", ((.Broadcast)?bc_all:bc_map), .KSColor$; if(.Gfx){ cutin "ks1.bmp",0; } else { } }
+		if(#Announcer == 11){ announce strcharinfo(0)+" is a first timer!", ((.Broadcast)?bc_all:bc_map), .KSColor$; if(.Gfx){ cutin "ks1.bmp",0; } else { } }
+		if(#Announcer == 12){ announce strcharinfo(0)+" got bloodlust!", ((.Broadcast)?bc_all:bc_map), .KSColor$; if(.Gfx){ cutin "ks1.bmp",0; } else { } }
+		if(#Announcer == 13){ announce strcharinfo(0)+" got bloodlust!", ((.Broadcast)?bc_all:bc_map), .KSColor$; if(.Gfx){ cutin "ks1.bmp",0; } else { } }
+		sleep2 1000;
+		soundeffectall ""+#Announcer+"_KS"+1+".wav", 0, strcharinfo(3);
+		cutin "",255;
+	}
+	if(@ks == 2 && .Gfx){ cutin "ks2.bmp",0; sleep2 1000; cutin "",255; } else { } 
+	if(@ks > 2){
+		if(#Announcer == 0){ announce strcharinfo(0)+" "+.KSDotA$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .KSColor$; if(.Gfx){ cutin "ks"+@ks+".bmp",0; } else { } }
+		if(#Announcer ==1){ announce strcharinfo(0)+" "+.KSHoN$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .KSColor$; if(.Gfx){ cutin "ks"+@ks+".bmp",0; } else { } } 
+		if(#Announcer ==2){ announce strcharinfo(0)+" "+.KSHoN$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .KSColor$; if(.Gfx){ cutin "ks"+@ks+".bmp",0; } else { } } 
+		if(#Announcer ==3){ announce strcharinfo(0)+" "+.KSFLAM$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .KSColor$; if(.Gfx){ cutin "ks"+@ks+".bmp",0; } else { } } 
+		if(#Announcer ==4){ announce strcharinfo(0)+" "+.KSENG$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .KSColor$; if(.Gfx){ cutin "ks"+@ks+".bmp",0; } else { } } 
+		if(#Announcer ==5){ announce strcharinfo(0)+" "+.KSBALL$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .KSColor$; if(.Gfx){ cutin "ks"+@ks+".bmp",0; } else { } } 
+		if(#Announcer ==6){ announce strcharinfo(0)+" "+.KSBRKY$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .KSColor$; if(.Gfx){ cutin "ks"+@ks+".bmp",0; } else { } } 
+		if(#Announcer ==7){ announce strcharinfo(0)+" "+.KSSDCT$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .KSColor$; if(.Gfx){ cutin "ks"+@ks+".bmp",0; } else { } } 
+		if(#Announcer ==8){ announce strcharinfo(0)+" "+.KSDUKE$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .KSColor$; if(.Gfx){ cutin "ks"+@ks+".bmp",0; } else { } }
+		if(#Announcer ==9){ announce strcharinfo(0)+" "+.KSVRZO$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .KSColor$; if(.Gfx){ cutin "ks"+@ks+".bmp",0; } else { } }  
+		if(#Announcer ==10){ announce strcharinfo(0)+" "+.KSCCA$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .KSColor$; if(.Gfx){ cutin "ks"+@ks+".bmp",0; } else { } }
+		if(#Announcer ==11){ announce strcharinfo(0)+" "+.KSPMP$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .KSColor$; if(.Gfx){ cutin "ks"+@ks+".bmp",0; } else { } }  	
+		if(#Announcer ==12){ announce strcharinfo(0)+" "+.KSSAM$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .KSColor$; if(.Gfx){ cutin "ks"+@ks+".bmp",0; } else { } }  	
+		if(#Announcer ==13){ announce strcharinfo(0)+" "+.KSSPT$[@ks - 3]+" "+((.Streak)?"("+@ks+")":"")+"", ((.Broadcast)?bc_all:bc_map), .KSColor$; if(.Gfx){ cutin "ks"+@ks+".bmp",0; } else { } }  	
+		sleep2 1500;
+		soundeffectall ""+#Announcer+"_KS"+@ks+".wav", 0, strcharinfo(3);
+		cutin "",255;
+	}
+	if(@mk > 1){
+		if(#Announcer == 0){ announce strcharinfo(0)+" "+.MKDotA$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .MKColor$; if(.Gfx){ cutin "mk"+@mk+".bmp",0; } else { } }
+		if(#Announcer ==1){ announce strcharinfo(0)+" "+.MKHoN$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .MKColor$; if(.Gfx){ cutin "mk"+@mk+".bmp",0; } else { } }
+		if(#Announcer ==2){ announce strcharinfo(0)+" "+.MKHoN$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .MKColor$; if(.Gfx){ cutin "mk"+@mk+".bmp",0; } else { } }
+		if(#Announcer ==3){ announce strcharinfo(0)+" "+.MKFLAM$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .MKColor$; if(.Gfx){ cutin "mk"+@mk+".bmp",0; } else { } }
+		if(#Announcer ==4){ announce strcharinfo(0)+" "+.MKENG$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .MKColor$; if(.Gfx){ cutin "mk"+@mk+".bmp",0; } else { } }
+		if(#Announcer ==5){ announce strcharinfo(0)+" "+.MKBALL$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .MKColor$; if(.Gfx){ cutin "mk"+@mk+".bmp",0; } else { } }
+		if(#Announcer ==6){ announce strcharinfo(0)+" "+.MKBRKY$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .MKColor$; if(.Gfx){ cutin "mk"+@mk+".bmp",0; } else { } }
+		if(#Announcer ==7){ announce strcharinfo(0)+" "+.MKSDCT$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .MKColor$; if(.Gfx){ cutin "mk"+@mk+".bmp",0; } else { } }
+		if(#Announcer ==8){ announce strcharinfo(0)+" "+.MKDUKE$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .MKColor$; if(.Gfx){ cutin "mk"+@mk+".bmp",0; } else { } }
+		if(#Announcer ==9){ announce strcharinfo(0)+" "+.MKVRZO$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .MKColor$; if(.Gfx){ cutin "mk"+@mk+".bmp",0; } else { } }
+		if(#Announcer ==10){ announce strcharinfo(0)+" "+.MKCCA$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .MKColor$; if(.Gfx){ cutin "mk"+@mk+".bmp",0; } else { } }
+		if(#Announcer ==11){ announce strcharinfo(0)+" "+.MKPMP$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .MKColor$; if(.Gfx){ cutin "mk"+@mk+".bmp",0; } else { } }	
+		if(#Announcer ==12){ announce strcharinfo(0)+" "+.MKSAM$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .MKColor$; if(.Gfx){ cutin "mk"+@mk+".bmp",0; } else { } }	
+		if(#Announcer ==13){ announce strcharinfo(0)+" "+.MKSPT$[@mk - 2]+" "+((.Multiple)?"("+@mk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .MKColor$; if(.Gfx){ cutin "mk"+@mk+".bmp",0; } else { } }	
+		sleep2 2000;
+		soundeffectall ""+#Announcer+"_MK"+@mk+".wav", 0, strcharinfo(3);
+		cutin "",255;
+	}
+	if((@nm > 2) && (@nm < .Feed)){
+		announce strcharinfo(0)+" is owning "+rid2name(NemesisKilled)+" "+((.Nemesis)?"("+@nm+")":"")+"", ((.Broadcast)?bc_all:bc_map), .NMColor$;
+		sleep2 2000;
+		if(#Announcer > 0){ soundeffectall #Announcer+"_Nemesis.wav", 0, strcharinfo(3); } else { soundeffectall "1_Nemesis.wav", 0;}
+	}
+	if(@nm >= .Feed){
+		announce rid2name(NemesisKilled)+" is Feeding "+strcharinfo(0)+" "+((.Feeder)?"("+@nm+")":"")+"", ((.Broadcast)?bc_all:bc_map), .FDColor$;
+		sleep2 1500;
+		soundeffectall "Feeder.wav", 0, strcharinfo(3);
+	} 
+	return;
+
+OnDeath:	
+	if(killedrid==NemesisKiller && @nmk > 2 ){
+		announce strcharinfo(0)+" just have a payback againts "+rid2name(killedrid)+" "+((.Nemesis)?"("+@nmk+")":"")+"", ((.Broadcast)?bc_all:bc_map), .PBColor$; if(.Gfx){ cutin "payback.bmp",4; } else { }
+		sleep2 2500;
+		soundeffectall ""+#Announcer+"_Payback.wav", 0,strcharinfo(3);  
+		cutin "",255;
+	}
+	attachrid(killedrid); 
+	callsub OnClearData;
+	return;
+
+OnMKReset: 
+	set @mk, 0; 
+	end;
+
+OnClearData: 
+	sleep2 3000; 
+	set NemesisKilled, 0;
+	set @ks, 0; 
+	set @mk, 0; 
+	set @nm, 0; 
+	return;
+
+OnRollback:
+	if(.Zeny){ set Zeny, Zeny - (.Zeny * .Rollback); }
+	if(.Cash){ dispbottom "[Point System] -"+(.Cash * .Rollback)+" Kill Point"; set #CASHPOINT, #CASHPOINT - (.Cash * .Rollback); }
+	if(.Skull){ delitem 7420, .Rollback; }
+	for(set .@i, 0; .@i < getarraysize(.ItemID); set .@i, .@i + 1){ if(.ItemID){ delitem .ItemID[.@i], .Amount[.@i] * .Rollback; }}
+	if((Kill - .Rollback) > 0){ set Kill, Kill - .Rollback; } else { set Kill, 0; }
+	if((KillingSpree - 1) > 0){ set KillingSpree, KillingSpree - 1; } else { set KillingSpree, 0; }
+	if((Dominating - 1) > 0){ set Dominating, Dominating - 1; } else { set Dominating, 0; }
+	if((MegaKill - 1) > 0){ set MegaKill, MegaKill - 1; } else { set MegaKill, 0; }
+	if((Unstoppable - 1) > 0){ set Unstoppable, Unstoppable - 1; } else { set Unstoppable, 0; }
+	if((WickedSick - 1) > 0){ set WickedSick, WickedSick - 1; } else { set WickedSick, 0; }
+	if((MonsterKill - 1) > 0){ set MonsterKill, MonsterKill - 1; } else { set MonsterKill, 0; }
+	if((Godlike - 1) > 0){ set Godlike, Godlike - 1; } else { set Godlike, 0; }
+	if((BeyondGodlike - 1) > 0){ set BeyondGodlike, BeyondGodlike - 1; } else { set BeyondGodlike, 0; }
+	if((DoubleKill - 1) > 0){ set DoubleKill, DoubleKill - 1; } else { set DoubleKill, 0; }
+	if((TripleKill - 1) > 0){ set TripleKill, TripleKill - 1; } else { set TripleKill, 0; }
+	if((UltraKill - 1) > 0){ set UltraKill, UltraKill - 1; } else { set UltraKill, 0; }
+	if((Rampage - 1) > 0){ set Rampage, Rampage - 1; } else { set Rampage, 0; }
+	if((Ownage - 1) > 0){ set Ownage, Ownage - 1; } else { set Ownage, 0; }
+	if((NemesisKill - (.Rollback - 3)) > 0){ set NemesisKill, NemesisKill - (.Rollback - 3); } else { set NemesisKill, 0; }
+	announce "[Anti-Feed] Your kill count has been rollbacked "+.Rollback+" times.",bc_self,0xFF0000;
+	return;
+}
+
+
+dewata,187,174,6	script	Top Ranks	4_M_CRU_SOLD,{
+mes "[Top Ranking]"; mes "What can I do for you today?";
+switch(select("PVP Ranking:PvP Statistic:Announcer Setting")){
+case 1: //Player Ranking
+	next; 
+	if(getvariableofnpc(.ServerType, "Versus")){
+		mes "[Top "+getvariableofnpc(.Top, "Versus")+" PvP Players]";
+		mes "^0000FFKill^000000 | ^FF0000Death^000000 | ^FF22FFKDR^000000 | ^00FF00SK^000000 | ^666666MK^000000";
+		query_sql "SELECT `char`, `kill`, `death`, `kdr`, `killingstreak`, `multikill` FROM `pvp_rank` ORDER BY `pvp_rank`.`kill` DESC LIMIT "+getvariableofnpc(.Top, "Versus")+"", .@char$, .@kill, .@death, .@kdr$, .@sk, .@mk;
+		for(set .@i, 0; .@i < getarraysize(.@char$); set .@i, .@i + 1){
+			mes .@i+1+". "+.@char$[.@i]+" ^0000FF"+.@kill[.@i]+"^000000 ^FF0000"+.@death[.@i]+"^000000 ^FF22FF"+.@kdr$[.@i]+"^000000 ^00FF00"+.@sk[.@i]+"^000000 ^666666"+.@mk[.@i]+"^000000 ";
+		}
+		close;
+	} else { 
+		mes "Top "+getvariableofnpc(.Top, "Versus")+" ranking is not yet implemented for this server type."; 
+	}
+//case 2: //MvP Ranking
+//	next; 
+//	if(getvariableofnpc(.ServerType, "Versus")){
+//		mes "[Top "+getvariableofnpc(.Top, "Versus")+" MvP Ranking]";
+//		mes "^0000FFPlayer^000000 | ^FF0000Kills^000000";
+//		query_sql "SELECT `name`, `kills` FROM `mvp` ORDER BY `mvp`.`kills` DESC LIMIT "+getvariableofnpc(.Top, "Versus")+"", .@name$, .@kills;
+//		for(set .@i, 0; .@i < getarraysize(.@name$); set .@i, .@i + 1){
+//			mes .@i+1+". "+.@name$[.@i]+" ^0000FF"+.@kills[.@i]+"^000000";
+//		}
+//		close;
+//	} else { 
+//		mes "Top "+getvariableofnpc(.Top, "Versus")+" ranking is not yet implemented for this server type."; 
+//	}	
+case 2: //PvP Statistic
+	next;
+	
+	mes strcharinfo(0)+"'s PvP Statistic"; mes "^666666Kill:^000000 "+Kill+" ^666666Death:^000000 "+Death+" ^666666KDR:^000000 "+callfunc("KDR_Calc", Kill, Death)+"^000000";
+	mes "^666666Killing Streak:^000000 "+KillingStreak+" ^666666Multi-Kills:^000000 "+MultiKill+"";
+	switch(select("Killing Streak:Multi-Kill Streak:Nemesis Streak:"+(getvariableofnpc(.Reset, "Versus")?"Reset":"")+"")){
+	case 1: //Killing Streak
+		next;
+		setarray .LSDotA$[0], ""+KillingSpree+"", ""+Dominating+"", ""+MegaKill+"", ""+Unstoppable+"", ""+WickedSick+"", ""+MonsterKill+"", ""+Godlike+"", ""+BeyondGodlike+"";
+		mes "Killing Streak Stats";
+		switch(#Announcer){
+		case 0:
+			for(set .@i, 0; .@i < getarraysize(.LSDotA$); set .@i, .@i + 1){
+				mes "^666666"+getvariableofnpc(.ESDotA$[.@i], "Versus")+"^000000: "+ .LSDotA$[.@i];
+			 }
+			close;
+		default:
+			for(set .@i, 0; .@i < getarraysize(.LSDotA$); set .@i, .@i + 1){
+				mes "^666666"+getvariableofnpc(.ESHoN$[.@i], "Versus")+"^000000: "+ .LSDotA$[.@i];
+			 }
+			close;
+		}
+		close;
+	case 2: //Multi-Kill
+		next;
+		setarray .LMDotA$[0], ""+DoubleKill+"", ""+TripleKill+"", ""+UltraKill+"", ""+Rampage+"", ""+Ownage+"";
+		mes "Multi-Kill Stats";
+		switch(#Announcer){
+		case 0:
+			for(set .@i, 0; .@i < getarraysize(.LMDotA$); set .@i, .@i + 1){
+				mes "^666666"+getvariableofnpc(.EMDotA$[.@i], "Versus")+"^000000: "+ .LMDotA$[.@i];
+			 }
+			close;
+		default:
+			for(set .@i, 0; .@i < getarraysize(.LMDotA$); set .@i, .@i + 1){
+				mes "^666666"+getvariableofnpc(.EMHoN$[.@i], "Versus")+"^000000: "+ .LMDotA$[.@i];
+			 }
+			close;
+		}
+	case 3:	//Nemesis
+		next;
+		mes "Nemesis Stat";
+		mes "^666666Nemesis Kill^000000: "+NemesisKill;
+		mes "^666666Feed Count^000000: "+FeedCount;
+		close;
+	case 4: //Reset Stat
+		next;
+		set .Reset, getvariableofnpc(.Reset, "Versus");
+		set .ZenyFee, getvariableofnpc(.ZenyFee, "Versus");
+		set .CashFee, getvariableofnpc(.CashFee, "Versus");
+		set .SkullFee, getvariableofnpc(.SkullFee, "Versus");
+		mes "[PVP Top10]"; mes "Are you sure you want to reset your PvP Statistics?";
+		if(.Reset == 1){ mes "^FF0000Reset Fee:^000000 "+.ZenyFee+" Zeny"; }
+		if(.Reset == 2){ mes "^FF0000Reset Fee:^000000 "+.CashFee+" Kill Point"; }
+		if(.Reset == 3){ mes "^FF0000Reset Fee:^000000 "+.SkullFee+" Skull"; }
+		switch(select("No:Yes")){
+			case 1: close;
+			case 2:
+			switch(.Reset){
+				case 0: break;
+				case 1:
+					if(Zeny < .ZenyFee){ next; mes "[PVP Top10]"; mes "You don't have enough Zeny."; close; }
+					set Zeny, Zeny - .ZenyFee; break;
+				case 2:
+					if(#CASHPOINTS < .CashFee){ next; mes "[PVP Top10]"; mes "You don't have enough Kill Point."; close; }
+					set #CASHPOINTS, #CASHPOINTS - .CashFee; break;
+				case 3:
+					if(countitem(7420) < .SkullFee){ next; mes "[PVP Top10]"; mes "You don't have enough Skull."; close; }
+					delitem 7420, .SkullFee; break;
+				default: break;
+			}
+		if(getvariableofnpc(.ServerType, "Versus")){ query_sql "DELETE FROM `pvp_rank` WHERE `pvp_rank`.`char_id` = "+getcharid(0)+""; }
+		callsub OnPvPReset; announce "[PVP Top10] Your PvP Statistic has been reset.",bc_self,0xFF0000; close;
+		}
+		close;
+	}
+	close;
+case 3: //Announcer Setting
+	next; mes "[PVP Top10]"; mes "What kind of announcer you want to use?";
+	if(getvariableofnpc(.AnnouncerFee, "Versus")){ set .AnnouncerFee, getvariableofnpc(.AnnouncerFee, "Versus"); }
+	L_Announce:
+//	switch(select(""+((#Announcer == 0)?"^FF0000DotA^000000":"DotA")+":"+((#Announcer == 1)?"^FF0000HoN^000000":"HoN")+":"+((#Announcer == 2)?"^FF0000Ms. Pudding^000000":"Ms. Pudding")+":"+((#Announcer == 3)?"^FF0000Flamboyant^000000":"Flamboyant")+":"+((#Announcer == 4)?"^FF0000English^000000":"English")+":"+((#Announcer == 5)?"^FF0000Balls of Steel^000000":"Balls of Steel")+":"+((#Announcer == 6)?"^FF0000BreakyCPK^000000":"BreakyCPK")+":"+((#Announcer == 7)?"^FF0000Seductive Announcer^000000":"Seductive Announcer")+":"+((#Announcer == 8)?"^FF0000Duke Nukem^000000":"Duke Nukem")+":"+((#Announcer == 9)?"^FF0000VRZO^000000":"VRZO")+":"+((#Announcer == 10)?"^FF0000Candy Crush^000000":"Candy Crush")+":"+((#Announcer == 11)?"^FF0000Pimp^000000":"Pimp")+":"+((#Announcer == 12)?"^FF0000Samuel Jackson^000000":"Samuel Jackson")+":"+((#Announcer == 13)?"^FF0000Scurvy Pirate^000000":"Scurvy Pirate")+"")){
+	switch(select(""+((#Announcer == 0)?"^FF0000DotA^000000":"DotA")+":"+((#Announcer == 1)?"^FF0000HoN^000000":"HoN")+":"+((#Announcer == 2)?"^FF0000Ms. Pudding^000000":"Ms. Pudding")+":"+((#Announcer == 3)?"^FF0000Flamboyant^000000":"Flamboyant")+":"+((#Announcer == 4)?"^FF0000English^000000":"English")+":"+((#Announcer == 5)?"^FF0000Balls of Steel^000000":"Balls of Steel")+":"+((#Announcer == 6)?"^FF0000BreakyCPK^000000":"BreakyCPK")+":"+((#Announcer == 7)?"^FF0000Seductive Announcer^000000":"Seductive Announcer")+":"+((#Announcer == 8)?"^FF0000Duke Nukem^000000":"Duke Nukem")+"")){
+
+		case 1: //DotA
+			if(#Announcer == 0){ goto L_Announce; }
+			soundeffect "0_KS1.wav", 0;
+			set #Announcer, 0;
+			announce "[PVP Top10] DotA announcer has been configured to your account.",bc_self,0xFF0000;
+			close;
+		case 2: //HoN
+			if(#Announcer == 1){ goto L_Announce; }
+			if((.AnnouncerFee) && (!#Hon)){
+			next; mes "[PVP Top10]"; mes "Do you want to purchase HoN announcer for "+.AnnouncerFee+" Kill Point?";
+			switch(select("No:Yes")){
+				case 1: close;
+				case 2: 
+				if(#CASHPOINTS < .AnnouncerFee){ next; mes "[PVP Top10]"; mes "You don't have enough Kill Point."; close; }
+				set #CASHPOINTS, #CASHPOINTS - .AnnouncerFee;
+				set #Hon, 1;
+			 }
+			}
+			soundeffect "1_KS1.wav", 0;
+			set #Announcer, 1;
+			announce "[PVP Top10] HoN announcer has been configured to your account.",bc_self,0xFF0000;
+			close;
+		case 3: //Ms. Pudding
+			if(#Announcer == 2){ goto L_Announce; }
+			if((.AnnouncerFee) && (!#MsPudding)){
+			next; mes "[PVP Top10]"; mes "Do you want to purchase Ms. Pudding announcer for "+.AnnouncerFee+" Kill Point?";
+			switch(select("No:Yes")){
+				case 1: close;
+				case 2: 
+				if(#CASHPOINTS < .AnnouncerFee){ next; mes "[PVP Top10]"; mes "You don't have enough Kill Point."; close; }
+				set #CASHPOINTS, #CASHPOINTS - .AnnouncerFee;
+				set #MsPudding, 1;
+			 }
+			}
+			soundeffect "2_KS1.wav", 0;
+			set #Announcer, 2;
+			announce "[PVP Top10] Ms. Pudding announcer has been configured to your account.",bc_self,0xFF0000;
+			close;		
+		case 4: //Flamboyant
+			if(#Announcer == 3){ goto L_Announce; }
+			if((.AnnouncerFee) && (!#Flamboyant)){
+			next; mes "[PVP Top10]"; mes "Do you want to purchase Flamboyant announcer for "+.AnnouncerFee+" Kill Point?";
+			switch(select("No:Yes")){
+				case 1: close;
+				case 2: 
+				if(#CASHPOINTS < .AnnouncerFee){ next; mes "[PVP Top10]"; mes "You don't have enough Kill Point."; close; }
+				set #CASHPOINTS, #CASHPOINTS - .AnnouncerFee;
+				set #Flamboyant, 1;
+			 }
+			}
+			soundeffect "3_KS1.wav", 0;
+			set #Announcer, 3;
+			announce "[PVP Top10] Flamboyant announcer has been configured to your account.",bc_self,0xFF0000;
+			close;			
+		case 5: //English
+			if(#Announcer == 4){ goto L_Announce; }
+			if((.AnnouncerFee) && (!#English)){
+			next; mes "[PVP Top10]"; mes "Do you want to purchase English announcer for "+.AnnouncerFee+" Kill Point?";
+			switch(select("No:Yes")){
+				case 1: close;
+				case 2: 
+				if(#CASHPOINTS < .AnnouncerFee){ next; mes "[PVP Top10]"; mes "You don't have enough Kill Point."; close; }
+				set #CASHPOINTS, #CASHPOINTS - .AnnouncerFee;
+				set #English, 1;
+			 }
+			}
+			soundeffect "4_KS1.wav", 0;
+			set #Announcer, 4;
+			announce "[PVP Top10] English announcer has been configured to your account.",bc_self,0xFF0000;
+			close;
+		case 6: //Balls of Steel
+			if(#Announcer == 5){ goto L_Announce; }
+			if((.AnnouncerFee) && (!#BallsofSteel)){
+			next; mes "[PVP Top10]"; mes "Do you want to purchase Balls of Steel announcer for "+.AnnouncerFee+" Kill Point?";
+			switch(select("No:Yes")){
+				case 1: close;
+				case 2: 
+				if(#CASHPOINTS < .AnnouncerFee){ next; mes "[PVP Top10]"; mes "You don't have enough Kill Point."; close; }
+				set #CASHPOINTS, #CASHPOINTS - .AnnouncerFee;
+				set #BallsofSteel, 1;
+			 }
+			}
+			soundeffect "5_KS1.wav", 0;
+			set #Announcer, 5;
+			announce "[PVP Top10] Balls of Steel announcer has been configured to your account.",bc_self,0xFF0000;
+			close;
+		case 7: //BreakyCPK
+			if(#Announcer == 6){ goto L_Announce; }
+			if((.AnnouncerFee) && (!#BreakyCPK)){
+			next; mes "[PVP Top10]"; mes "Do you want to purchase BreakyCPK announcer for "+.AnnouncerFee+" Kill Point?";
+			switch(select("No:Yes")){
+				case 1: close;
+				case 2: 
+				if(#CASHPOINTS < .AnnouncerFee){ next; mes "[PVP Top10]"; mes "You don't have enough Kill Point."; close; }
+				set #CASHPOINTS, #CASHPOINTS - .AnnouncerFee;
+				set #BreakyCPK, 1;
+			 }
+			}
+			soundeffect "6_KS1.wav", 0;
+			set #Announcer, 6;
+			announce "[PVP Top10] BreakyCPK announcer has been configured to your account.",bc_self,0xFF0000;
+			close;
+		case 8: //Seductive
+			if(#Announcer == 7){ goto L_Announce; }
+			if((.AnnouncerFee) && (!#HoN2)){
+			next; mes "[PVP Top10]"; mes "Do you want to purchase Seductive Announcer for "+.AnnouncerFee+" Kill Point?";
+			switch(select("No:Yes")){
+				case 1: close;
+				case 2: 
+				if(#CASHPOINTS < .AnnouncerFee){ next; mes "[PVP Top10]"; mes "You don't have enough Kill Point."; close; }
+				set #CASHPOINTS, #CASHPOINTS - .AnnouncerFee;
+				set #HoN2, 1;
+			 }
+			}
+			soundeffect "7_KS1.wav", 0;
+			set #Announcer, 7;
+			announce "[PVP Top10] Seductive announcer has been configured to your account.",bc_self,0xFF0000;
+			close;
+		case 9: //Duke Nukem
+			if(#Announcer == 8){ goto L_Announce; }
+			if((.AnnouncerFee) && (!#DKNK)){
+			next; mes "[PVP Top10]"; mes "Do you want to purchase Duke Nukem announcer for "+.AnnouncerFee+" Kill Point?";
+			switch(select("No:Yes")){
+				case 1: close;
+				case 2: 
+				if(#CASHPOINTS < .AnnouncerFee){ next; mes "[PVP Top10]"; mes "You don't have enough Kill Point."; close; }
+				set #CASHPOINTS, #CASHPOINTS - .AnnouncerFee;
+				set #DKNK, 1;
+			 }
+			}
+			soundeffect "8_KS1.wav", 0;
+			set #Announcer, 8;
+			announce "[PVP Top10] Duke Nukem announcer has been configured to your account.",bc_self,0xFF0000;
+			close;
+		case 10: //VRZO
+			if(#Announcer == 9){ goto L_Announce; }
+			if((.AnnouncerFee) && (!#VRZO)){
+			next; mes "[PVP Top10]"; mes "Do you want to purchase VRZO announcer for "+.AnnouncerFee+" Kill Point?";
+			switch(select("No:Yes")){
+				case 1: close;
+				case 2: 
+				if(#CASHPOINTS < .AnnouncerFee){ next; mes "[PVP Top10]"; mes "You don't have enough Kill Point."; close; }
+				set #CASHPOINTS, #CASHPOINTS - .AnnouncerFee;
+				set #VRZO, 1;
+			 }
+			}
+			soundeffect "9_KS1.wav", 0;
+			set #Announcer, 9;
+			announce "[PVP Top10] VRZO announcer has been configured to your account.",bc_self,0xFF0000;
+			close;
+		case 11: //Candy Crush
+			if(#Announcer == 10){ goto L_Announce; }
+			if((.AnnouncerFee) && (!#CCA)){
+			next; mes "[PVP Top10]"; mes "Do you want to purchase Candy Crush announcer for "+.AnnouncerFee+" Kill Point?";
+			switch(select("No:Yes")){
+				case 1: close;
+				case 2: 
+				if(#CASHPOINTS < .AnnouncerFee){ next; mes "[PVP Top10]"; mes "You don't have enough Kill Point."; close; }
+				set #CASHPOINTS, #CASHPOINTS - .AnnouncerFee;
+				set #CCA, 1;
+			 }
+			}
+			soundeffect "10_KS1.wav", 0;
+			set #Announcer, 10;
+			announce "[PVP Top10] Candy Crush announcer has been configured to your account.",bc_self,0xFF0000;
+			close;
+		case 12: //PIMP
+			if(#Announcer == 11){ goto L_Announce; }
+			if((.AnnouncerFee) && (!#PIMP)){
+			next; mes "[PVP Top10]"; mes "Do you want to purchase Pimp announcer for "+.AnnouncerFee+" Kill Point?";
+			switch(select("No:Yes")){
+				case 1: close;
+				case 2: 
+				if(#CASHPOINTS < .AnnouncerFee){ next; mes "[PVP Top10]"; mes "You don't have enough Kill Point."; close; }
+				set #CASHPOINTS, #CASHPOINTS - .AnnouncerFee;
+				set #PIMP, 1;
+			 }
+			}
+			soundeffect "11_KS1.wav", 0;
+			set #Announcer,11;
+			announce "[PVP Top10] Pimp announcer has been configured to your account.",bc_self,0xFF0000;
+			close;
+		case 13: //Samuel Jackson
+			if(#Announcer == 12){ goto L_Announce; }
+			if((.AnnouncerFee) && (!#SAM)){
+			next; mes "[PVP Top10]"; mes "Do you want to purchase Samuel Jackson announcer for "+.AnnouncerFee+" Kill Point?";
+			switch(select("No:Yes")){
+				case 1: close;
+				case 2: 
+				if(#CASHPOINTS < .AnnouncerFee){ next; mes "[PVP Top10]"; mes "You don't have enough Kill Point."; close; }
+				set #CASHPOINTS, #CASHPOINTS - .AnnouncerFee;
+				set #SAM, 1;
+			 }
+			}
+			soundeffect "12_KS1.wav", 0;
+			set #Announcer, 12;
+			announce "[PVP Top10] Samuel Jackson announcer has been configured to your account.",bc_self,0xFF0000;
+			close;	
+		case 14: //Scurvy Pirate
+			if(#Announcer == 13){ goto L_Announce; }
+			if((.AnnouncerFee) && (!#SPRT)){
+			next; mes "[PVP Top10]"; mes "Do you want to purchase Scurvy Pirate announcer for "+.AnnouncerFee+" Kill Point?";
+			switch(select("No:Yes")){
+				case 1: close;
+				case 2: 
+				if(#CASHPOINTS < .AnnouncerFee){ next; mes "[PVP Top10]"; mes "You don't have enough Kill Point."; close; }
+				set #CASHPOINTS, #CASHPOINTS - .AnnouncerFee;
+				set #SPRT, 1;
+			 }
+			}
+			soundeffect "13_KS1.wav", 0;
+			set #Announcer,13;
+			announce "[PVP Top10] Scurvy Pirate announcer has been configured to your account.",bc_self,0xFF0000;
+			close;			
+	default: close;
+	}
+end;
+OnInit:
+waitingroom "Top 10 PVP",0;
+end;
+ }
+close;
+ 
+OnPvPReset:
+set Kill, 0;
+set Death, 0;
+set KillingStreak, 0; 
+set MultiKill, 0;
+set KillingSpree, 0;
+set Dominating, 0;
+set MegaKill, 0;
+set Unstoppable, 0;
+set WickedSick, 0;
+set MonsterKill, 0;
+set Godlike, 0;
+set BeyondGodlike, 0;
+set DoubleKill, 0;
+set TripleKill, 0;
+set UltraKill, 0;
+set Rampage, 0;
+set Ownage, 0;
+set NemesisKill, 0;
+set FeedCount, 0;
+return;
+}
+
+//Ghost's KDR Algorithm
+function	script	KDR_Calc	{
+if(!getarg(1)) { debugmes "Error in KDR function, getarg(1) invalid value"; return 0; } // [Lighta]
+if(getarg(0) >= getarg(1)){
+	if(getarg(1)){
+		set .@i, getarg(0)/getarg(1);
+		if((getarg(0)%getarg(1)) == 0){ return .@i+".00"; }
+		set .@j, (getarg(0)%getarg(1))*100/getarg(1);
+		return .@i+"."+.@j;
+	} else {
+		return getarg(0)+".00";
+	}
+}
+if(getarg(0) < getarg(1)){
+	if(getarg(0)){ 
+		set .@i, (getarg(0)*10)/getarg(1);
+		set .@j, ((getarg(0)*10)%getarg(1))*10/getarg(1);
+	return "0."+.@i +.@j;
+	} else {
+		return "0.00";
+	}
+ }
+}
+
+
+

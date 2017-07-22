@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/HerculesWS/Hercules/!svn/ver/35710/trunk/conf/global
+END
+sql_connection.conf
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/HerculesWS/Hercules/!svn/ver/35708/trunk/conf/global/sql_connection.conf
+END
+console.conf
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/HerculesWS/Hercules/!svn/ver/35710/trunk/conf/global/console.conf
+END

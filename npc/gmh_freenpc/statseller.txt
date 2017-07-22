@@ -1,0 +1,85 @@
+dewata,187,193,5	script	Kafra Linda	4_F_KAFRA8,{
+mes "[Kafra Linda]";
+mes "Hello";
+mes "My name is Kafra Linda";
+mes "I work for the Kafra Services";
+mes "My job is to sell Status Points & Skill Points.";
+next;
+menu "^FF3355Sell Points",Sell,"Buy Points",Buy,"See Prices^000000",Prices,"No Thanks",Cancel;
+ 
+Sell:
+mes "[Kafra Linda]";
+mes "Allright, What kind of points would you like to sell?";
+next;
+menu "^FF3355Status Points",Stats,"Skill Points^000000",skillPoints,"No Thanks",Cancel;
+ 
+Stats:
+mes "[Kafra Linda]";
+mes "Ok, now put in the Amount of Statpoints you would like to sell";
+input .@statamount;
+if (StatusPoint < .@statamount) goto NoPoints;
+set .@statprice, 100 * .@statamount;
+set Zeny, Zeny +.@statprice;
+set StatusPoint,StatusPoint -.@statamount;
+close;
+ 
+skillPoints:
+mes "[Kafra Linda]";
+mes "Ok, now put in the Amount of Skillpoints you would like to sell";
+input .@skillamount;
+if (SkillPoint < .@skillamount) goto NoPoints;
+set .@skillprice, 100 * .@skillamount;
+set Zeny, Zeny +.@skillprice;
+set SkillPoint,SkillPoint -.@skillamount;
+close;
+ 
+Buy:
+mes "[Kafra Linda]";
+mes "Allright, what kind of points would you like to buy?";
+next;
+menu "^FF3355Status Points",BStats,"Skill Points^000000",BSkill,"Nothing",Cancel;
+ 
+BStats:
+mes "[Kafra Linda]";
+mes "Ok, now put in the Amount of Statpoints you would like to buy";
+input .@statamount;
+set .@statprice, 100 * .@statamount;
+if (Zeny < .@statprice) goto NoZeny;
+set Zeny, Zeny -.@statprice;
+set StatusPoint,StatusPoint +.@statamount;
+close;
+ 
+BSkill:
+mes "[Kafra Linda]";
+mes "Ok, now put in the Amount of Skillpoints you would like to buy";
+input .@skillamount;
+set .@skillprice, 100 * .@skillamount;
+if (Zeny < .@skillprice) goto NoZeny;
+set Zeny, Zeny -.@skillprice;
+set SkillPoint,SkillPoint +.@skillamount;
+close;
+ 
+Prices:
+mes "[Kafra Linda]";
+mes "I buy and sell Stat/Skill points for the same prices.";
+next;
+mes "Status Points 100 Zeny";
+mes "Skill Points 100 Zeny";
+close;
+ 
+NoPoints:
+mes "[Kafra Linda]";
+mes "Sorry, you don't have enough Skill / Status Points!";
+close;
+ 
+NoZeny:
+mes "[Kafra Linda]";
+mes "Sorry, you don't have enough zeny to buy points!";
+close;
+ 
+Cancel:
+mes "[Kafra Linda]";
+mes "Allright. Please come again if you need anything.";
+close;
+ 
+}

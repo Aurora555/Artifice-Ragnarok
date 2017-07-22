@@ -1,0 +1,42 @@
+dewata,172,128,5	script	Haste Fairy	4_F_FAIRY,{
+ mes "[Quest]";
+ mes callfunc("F_Hi");
+ mes "I can make unlimited speed potion for you.";
+ mes "If you bring me the right ingredients...";
+ next;
+
+ menu "I have it",-,"No, Thanks",M_exit;
+ mes "[Quest]";
+ mes "For this to work, I'm gonna need";
+ mes "15 Artifice coin";
+ mes "300 Star dust";
+ mes "150 Witched Starsand";
+ next;
+ mes "[Quest]";
+ mes "Okay, let me see what you have...";
+ next;
+ if(countitem(674) < 15 && countitem(1001) < 300 && countitem(1061) < 150) {
+ mes "[Quest]";
+ mes "Sorry you don't have all the items.";
+ emotion e_sry;
+ close;
+ }
+ else {
+ delitem 674,15;
+ delitem 1001,300;
+ delitem 1061,150;
+ getitem 32580,1;
+ mes "[Quest]";
+ mes "Thank you very much!";
+ mes callfunc("F_Bye");
+ close;
+ }
+
+
+
+
+M_exit:
+ mes "[Quest]";
+ mes callfunc("F_Bye");
+ close;
+}
